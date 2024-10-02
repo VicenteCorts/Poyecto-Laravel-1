@@ -89,13 +89,119 @@ Route::get('/', function () {
 ## Clase 358
 ### Creando los Modelos o entidades
 #### ORM: 
-Elocuent - modelo de programación cuya misión es transformar las tablas de una base de datos de forma que las tareas básicas, que realizan los programadores, estén simplificadas-
+Eloquent - modelo de programación cuya misión es transformar las tablas de una base de datos de forma que las tareas básicas, que realizan los programadores, estén simplificadas-
 - **En symfony es Doctrine**
 ### Ubicación
 Los modelos se crean dentro de la carpeta app>models
 - nos vamos a la consola, a la carpeta del proyecto
 - $ php artisan make:model "nombre-del-modelo"
-- Los modelos se guardan en Mayus y singular Imagen, Like, Comentario, etc...
+- Los modelos se guardan en Mayus y singular Image, Like, Comment, etc...
+
+## Clase 359
+### Configurando Modelos y sus relaciones
+https://laravel.com/docs/11.x/eloquent-relationships#one-of-many-polymorphic-relations
+En Laravel 11 se definen de fomra diferente a las clases de Victor
+#### Entidad Comment
+```html
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Comment extends Model
+{
+    protected $table = 'comments';
+    protected $primaryKey = 'id';
+    
+    //Relación Many to One
+    public function user(): BelongsTo{
+        return $this->belongsTo(User::class);
+    }
+
+    //Relación Many to One
+    public function image(): BelongsTo {
+        return $this->belongsTo(Image::class);
+    }
+}
+```
+#### Entidad Image
+```html
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Image extends Model
+{
+    protected $table = 'images'; //Indicamos cual es la tabla que modifica este modelo
+    protected $primaryKey = 'id';
+    
+    //Relación One to Many
+    public function comments(): HasMany {
+        return $this->hasMany(Comment::class);
+    }
+    
+    //Relación One to Many
+    public function likes(): HasMany{
+        return $this->hasMany(Like::class);
+    }
+    
+    //Relación Many to One
+    public function user(): BelongsTo{
+        return $this->belongsTo(User::class);
+    }
+    
+}
+```
+#### Entidad Like
+```html
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Like extends Model
+{
+    protected $table = 'likes';
+    protected $primaryKey = 'id';
+    
+    //Relación Many to One
+    public function user(): BelongsTo{
+        return $this->belongsTo(User::class);
+    }
+
+    //Relación Many to One
+    public function image(): BelongsTo {
+        return $this->belongsTo(Image::class);
+    }
+}
+```
+#### Entidad User
+Añadimos:
+``html 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+//Relación One to Many
+    public function images() : HasMany {
+        return $this->hasMany(Image::class);
+    }
+```
+- **Cabe hacer mención a la importancia de importar las librerias al principio y a saber la relación que existe entre las diferentes tablas para la hora de definirlas**
+
+## Clase 360
+### Rellenar la BBDD
+Datos recogidos mediante Inserts en el documento de la raiz del proyecto **database.sql** previamente creado por nosotros.
+
+
 
 
 
