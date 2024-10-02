@@ -50,7 +50,15 @@ A continuación, aprovechamos que el proyecto está recien instalado para crear 
 - **Reiniciamos el servidor web local**
 
 ## Clase 356
-### Creación y conexión a la BBDD
+### Creación de la BBDD phpmyadmin-sql
+Creamos un nuevo archivo en la raíz del proyecto "database.sql" para escribir todas las instrucciones SQL para la creación de BBDD.
+
+Posteriormente abrimos la consola de MySQL y copiamos todo el código para ejecutarlo. Ya tendríamos nuestra BBDD creada y lista.
+También podemos compilñar el código SQL a través de netbeans en uno de los botones superiores (a mi no me funciona).
+
+## Clase 357
+### Conexión a la BBDD
+
 
 
 
