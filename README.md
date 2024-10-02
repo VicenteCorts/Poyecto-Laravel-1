@@ -188,7 +188,7 @@ class Like extends Model
 ```
 #### Entidad User
 Añadimos:
-``html 
+```html 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 //Relación One to Many
     public function images() : HasMany {
@@ -203,6 +203,59 @@ Datos recogidos mediante Inserts en el documento de la raiz del proyecto **datab
 
 ## Clase 361
 ### Probando el ORM
+- Abrimos web.php
+- Importamos los modelos, ejemplo: use App\Models\Image;
+- añadimos el siguinete código para ver si llegan los registros de la BBDD:
+```html
+//Sacar imágenes por ORM
+    $images = Image::all();
+    foreach($images as $image){
+        var_dump($image);
+    }
+    die();
+```
+**O más elaborado:**
+```html
+//Sacar imágenes por ORM
+    $images = Image::all();
+    foreach($images as $image){
+        echo $image->image_path."<br/>";
+        echo $image->description."<br/>";
+        echo "<hr/>";
+//        var_dump($image);
+    }
+    die();
+```
+- Si quisiéramos sacar el usuario que ha creado cada imagen seguiríamos elk siguinete código: **echo $image->user->name.' '.$image->user->surname;**
+- Si queremos rizar más el rizo y sacar además los comentarios asociados a cada imagen, sería con el siguiente código:
+```html
+//Sacar imágenes por ORM
+    $images = Image::all();
+    foreach($images as $image){
+        echo $image->image_path."<br/>";
+        echo $image->description."<br/>";
+        echo $image->user->name.' '.$image->user->surname."<br/>";
+
+        foreach ($image->comments as $comment){ //ESTE CÓDIGO
+            echo $comment->content."<br/>";
+        }
+
+        echo "<hr/>";
+//        var_dump($image);
+    }
+    die();
+```
+## Clase 362
+### Login y Registro de Usuarios (Auth Laravel 11)
+
+
+
+
+
+
+
+
+
 
 
 
