@@ -58,8 +58,35 @@ También podemos compilñar el código SQL a través de netbeans en uno de los b
 
 ## Clase 357
 ### Conexión a la BBDD
+En el archivo .env de la raíz del proyecto debemos realizar la siguiente configuración:
+- APP_URL=http://proyecto-laravel.com.devel/
+- En el apartado de DB_CONNECTION:
+```html
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_master
+DB_USERNAME=root
+DB_PASSWORD=
+```
+- Y finalmente debemos sustituir "database" por **"file"** en **SESSION_DRIVER=file**
+Para comprobar si la conexión se ha establecido correctamente podemos sustituir en el archivo web.php la ruto principal por:
+```html
+Route::get('/', function () {
+    echo "<h1>Hola mundo</h1>";
+    
+    try {
+        \DB::connection()->getPDO();
+        echo \DB::connection()->getDatabaseName();
+        } catch (\Exception $e) {
+        echo 'None';
+    }
+    
+});
+```
 
-
+## Clase 358
+### 
 
 
 
