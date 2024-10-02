@@ -70,7 +70,8 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 - Y finalmente debemos sustituir "database" por **"file"** en **SESSION_DRIVER=file**
-Para comprobar si la conexión se ha establecido correctamente podemos sustituir en el archivo web.php la ruto principal por:
+
+- Para comprobar si la conexión se ha establecido correctamente podemos sustituir en el archivo web.php la ruta principal por:
 ```html
 Route::get('/', function () {
     echo "<h1>Hola mundo</h1>";
@@ -86,8 +87,15 @@ Route::get('/', function () {
 ```
 
 ## Clase 358
-### 
-
+### Creando los Modelos o entidades
+#### ORM: 
+Elocuent - modelo de programación cuya misión es transformar las tablas de una base de datos de forma que las tareas básicas, que realizan los programadores, estén simplificadas-
+- **En symfony es Doctrine**
+### Ubicación
+Los modelos se crean dentro de la carpeta app>models
+- nos vamos a la consola, a la carpeta del proyecto
+- $ php artisan make:model "nombre-del-modelo"
+- Los modelos se guardan en Mayus y singular Imagen, Like, Comentario, etc...
 
 
 
