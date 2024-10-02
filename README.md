@@ -201,6 +201,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ### Rellenar la BBDD
 Datos recogidos mediante Inserts en el documento de la raiz del proyecto **database.sql** previamente creado por nosotros.
 
+## Clase 361
+### Probando el ORM
 
 
 
