@@ -277,6 +277,9 @@ Datos recogidos mediante Inserts en el documento de la raiz del proyecto **datab
 Por último para que la homepage de nuestro proyecto sea el login instalado a través de bootsstrap y todo el proceso anterior, debemos ir a web.php y sustituir la ruta del homeController por **'/'**.
 - Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Además debemos modificar RegisterController para que al añadir un nuevo usuario nos redirija correctamente:
+- (línea 31) **protected $redirectTo = '/';**
+
 #### Resultado:
 Con estas intalaciones ya tendríamos el layout de bootstrap corriendo (pantalla blanca con menu superior de Login y Registro)
 - NOTA: al final del proyecto para compilar todo el proyecto al completo, será necesario ejecutar el comando: **npm run build**. Pero al final, de momento no.
