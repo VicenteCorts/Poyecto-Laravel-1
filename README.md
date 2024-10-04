@@ -246,13 +246,40 @@ Datos recogidos mediante Inserts en el documento de la raiz del proyecto **datab
     die();
 ```
 ## Clase 362
+
 ### Login y Registro de Usuarios (Auth Laravel 11)
 
+- https://laravel.com/docs/11.x/authentication#install-a-starter-kit
+- En versiones anteriores de Laravel o si empleamos un kit de instalación inicial de Laravel, estos elementos de Registro, Login, Autenticación, etc... vienen ya por defecto. En caso de que instalemos Laravel mediante composer debemos hacer unas intalaciones y configuraciones para que estos archivos, ya predeterminados, se instalen y podamos hacer uso de ellos
 
+#### Pasos para instalar Starter Kits
 
+- https://laravel.com/docs/11.x/starter-kits#laravel-breeze
+- https://www.youtube.com/watch?v=XupPp7xxGMM&ab_channel=JLuisDev
 
+- Para **importar el "UI"** Empleamos los sigueintes comandos por consola (siguiendo la explicación del video 2º enlace)
+- **composer require laravel/ui**
 
+- Posteriormente importamos la librería de autenticación:
+- **$ php artisan ui:auth** (yes)
+- Con esto nos incluye en la carpeta views una carpeta **auth** y en la carpeta layouts-> **app.blade.php**
 
+- Luego debemos **importar Bootstrap** usando:
+- (Para más info: https://getbootstrap.com/)
+- **$ php artisan ui bootstrap**
+- **npm install**
+- **npm run dev**
+
+- Puede darse el caso, de que necesitemos node.js para ejecutar esos dos ultimos comandos e instalar bootstrap correctamente; para ello necesitmaos instalar node.js
+- https://nodejs.org/en
+
+#### Configuración adicional:
+Por último para que la homepage de nuestro proyecto sea el login instalado a través de bootsstrap y todo el proceso anterior, debemos ir a web.php y sustituir la ruta del homeController por **'/'**.
+- Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+#### Resultado:
+Con estas intalaciones ya tendríamos el layout de bootstrap corriendo (pantalla blanca con menu superior de Login y Registro)
+- NOTA: al final del proyecto para compilar todo el proyecto al completo, será necesario ejecutar el comando: **npm run build**. Pero al final, de momento no.
 
 
 

@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+//use Illuminate\Support\Facades\Route;
 //use App\Models\Image;
 //use App\Models\Comment;
 //use App\Models\Like;
 //use App\Models\User;
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/', function () {
+    return view('welcome');
+});
 
 /*
 Route::get('/', function () {
@@ -39,6 +39,7 @@ Route::get('/', function () {
     die();
 });
 */
-Route::get('/', function () {
-    echo "<h1>Hola mundo</h1>";
-});
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
