@@ -334,8 +334,51 @@ protected function create(array $data)
 
 ## Clase 364
 ### Elementos del Menú
+Nos dirigimos a views>layouts>app.blad.php
+- Cambiamos el nombre de la aplicación directamente cambiando title y el <a> // sin embargo, accediando a config>app.php podemos cambiar la configuración de algunas variables como dicho nombre (aunque no sé como)
+- Añadimos también los enlaces para el usuario autenticado que deseemos (Inicio y Subir foto en menú horizontal y dentro del drop-down menú dos "<a>" para añadir enlaces a mi perfil y a configuración.
+```html
+(...)
+@else
+                            <li class="nav-item">
+                                <a class="nav-link" href="">
+                                    Inicio
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">
+                                    Subir imagen
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
 
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    
+                                    <a class="dropdown-item" href="">
+                                       Mi perfil
+                                    </a>
+                                    
+                                    <a class="dropdown-item" href="">
+                                       Configuración
+                                    </a>
+                                    
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
 
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+```
+
+## Clase 365
+###
 
 
 
