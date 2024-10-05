@@ -378,7 +378,49 @@ Nos dirigimos a views>layouts>app.blad.php
 ```
 
 ## Clase 365
-###
+### Formulario de Configuración
+- Lo primero es generar un nuevo controlador:
+- **$ php artisan mak:controller UserController**
+- app>http>controllers>UserController.php
+```html
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class UserController extends Controller
+{
+    public function config() {
+        return view('user.config');
+    }
+}
+```
+- Creamos dentro de views, la carpeta user y dentro de esta el archivo config.blade.php y le ponemos algo de contenido incial (simplemente para comprobar que funcione)
+- Creamos la ruta en web.php para ir al método config del Controlador User: **Route::get('/configuracion', [App\Http\Controllers\UserController::class, 'config'])->name('config');**
+- Volvemos a resources>views>layout>app.blade.php y modificamos el anlace de configuración: **<a class="dropdown-item" href="{{ route('config') }}">Configuración</a>**
+
+Todo funciona correctamente
+- Ahora debemos retocar la plantilla de config.blade.php haciendo que herede de alguna plantilla maestra para que tenga cohesión con el resto de la web
+- Tomamos de referencia el código del archivo register.blade.php y lo editamos al gusto (cambiamos el título de la tarjeta, eliminamos los labels de password, etc...) 
+- Lo importante es heredar el layout maestro con:
+```html
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Configuración de mi cuenta</div>
+(...)
+//Código abundante
+(...)
+@endsection
+```
+
+## Clase 366
+### Recibir datos de formulario de Configuración
 
 
 
