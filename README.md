@@ -1,4 +1,4 @@
-# PROYECTO LARAVEL - INSTAGRAM
+npm# PROYECTO LARAVEL - INSTAGRAM
 ## Clase 354
 ### Creando la BBDD
 #### Tabla USERS
@@ -284,7 +284,56 @@ Además debemos modificar RegisterController para que al añadir un nuevo usuari
 Con estas intalaciones ya tendríamos el layout de bootstrap corriendo (pantalla blanca con menu superior de Login y Registro)
 - NOTA: al final del proyecto para compilar todo el proyecto al completo, será necesario ejecutar el comando: **npm run build**. Pero al final, de momento no.
 
+## Clase 363
+### Completar formulario de registro
+Queremos que el formulario de registro incluya algunos campos extra de la tabla de usuarios, quepor defecto no están incluidos en dicho formulario, haciendo que al registrar un nuevo usuario queden campos vacíos en la BBDD.
+- Nos dirigimos a views>auth>register.blae.php
+- Añadimos los nuevos campos surname y nick -> cambiando todos los textos de "name" al texto correspondiente (coherencia)
+- Luego nos vamos a nuestro modelo app>user.php y añadimos surname y nick (debemos añadir el 'role' para hacer que genere cambios en la BBDD también aunque lo dejemos predefinido más adelante):
+```html
+protected $fillable = [
+        'role',
+        'name',
+        'surname',
+        'nick',
+        'email',
+        'password',
+    ];
+```
+- Ahora abrimos app>http>controllers>RegisterController.php
+- Dentro modificamos la parte de "validator" para añadir los nuevos campos:
+```html
+protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'nick' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+    }
+```
+- Igualmente debemos modificar el método "create" de este archivo para añadir los nuevos campos (además añadimos el cmapo "role" pero de manera fija):
+```html
+protected function create(array $data)
+    {
+        return User::create([
+	    'role'=> 'user',
+            'name' => $data['name'],
+            'surname' => $data['surname'],
+            'nick' => $data['nick'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+```
+- **Victor modifica el middleware pero en laravel 11 parece que no se tiene acceso a él**
 
+- **Hacer mención a que he modificado en este punto todas las redirecciones a "/home/ por "/"**
+
+## Clase 364
+### Elementos del Menú
 
 
 

@@ -1,6 +1,6 @@
 <?php
 
-//use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route;
 //use App\Models\Image;
 //use App\Models\Comment;
 //use App\Models\Like;
