@@ -420,7 +420,50 @@ Todo funciona correctamente
 ```
 
 ## Clase 366
+### Recibir datos del usuario como values
+Primero haremos que el formulario se rellene con los datos del usuario identificado. Para ello añadiremos los values utilizando el ORM para extraer los datos de la BBDD:
+- Sustituir en el value de cada label {{old('nombre_atributo')}} por-> **value="{{ Auth::user()->name }}"**
 ### Recibir datos de formulario de Configuración
+Creamos un método "update" en el Controlador de User (Atención al uso del objeto **Request**)
+```html
+public function update(Request $request) {
+        $id = \Auth::user()->id; //Barra invertida delante de Auth para evitar problemas ya que no tenemos ningún namespace indicao
+        $name = $request->input('name');
+        $surname = $request->input('surname');
+        $nick = $request->input('nick');
+        $email = $request->input('email');
+        
+        //var_dump($id);
+        //var_dump($name);
+        //var_dump($email);
+        //die();
+    }
+```
+- También debemos crear la ruta para el submit del formulario de configuración (por post) en el arhcivo web.php: 
+**Route::post('/user/update', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');**
+- Después debemos incluir este action al formulario-> **<form method="POST" action="{{ route('user.update') }}">**
+
+## Clase 367
+### Validar datos del fromularios
+
+### Comprobar registros "únicos"
+
+### Guardar datos en BBDD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
