@@ -523,16 +523,90 @@ Para que el mensaje final fuera visible debemos incluir el siguiente código en 
 @endif
 ```
 ## Clase 369
+### Preparación del formulario
+Añadimos un bloque de código para incluir el label para la imagen de perfil:
+```html
+<div class="row mb-3">
+	<label for="image_path" class="col-md-4 col-form-label text-md-end">{{ __('Avatar') }}</label>
+
+	<div class="col-md-6">
+		<input id="image_path" type="file" class="form-control @error('image_path') is-invalid @enderror" name="image_path" required autocomplete="image">
+
+		@error('image_path')
+			<span class="invalid-feedback" role="alert">
+				<strong>{{ $message }}</strong>
+			</span>
+		@enderror
+	</div>
+</div>
+```
+### Subir archivos al servidor
+En Laravel, no podemos guardar las imágenes de forma "directa" en el sistema de archivos. En este caso se emplean una serie de **discos virtuales** (archivos: config>filesystems || storage)...
+- Para comenzar el proceso de configuración para poder subir y almacenar archivos tipo imagen nos dirigiremos a la carpeta **storage/app** y crearemos dos carpetas nuevas dentro (users e images).
+- Ahora nos dirigimos al archivo **filesystems.php** (dentro de la carpeta config).
+- Aquí veremos los diferentes discos virtuales para almacenaje. 
+- Copiamos el disco **public** y lo editamos (nombre y ruta) para que dirijan a las dos carpetas creadas en el primer paso (users e images) del siguiente modo:
+```html
+	'public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        
+        'users' => [
+            'driver' => 'local',
+            'root' => storage_path('app/users'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        
+        'images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/images'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+```
+### Más configuración en el Formulario y Método
+Ahora que tenemos definidos los dos discos virtuales añadimos el enctype a la cabecera del formulario para permitir la subida de archivos:
+```html
+<form method="POST" action="{{ route('user.update') }}" enctype="multipart/form-data">
+```
+
+Ahora nos dirigimos al Controlador de User, al método update, para añadir la nueva función de subir imagen de perfil:
+- En primer lugar debemos importar el objeto storage: **use Illuminate\Support\Facades\Storage;** y **use Illuminate\Support\Facades\File;**.
+- Luego debemos incluir el código  para la subida de imágenes en el método **update**:
+```html
+	//Subir la imagen
+        $image_path = $request->file('image_path'); //Ahora no sería $request->input, sino file (por motivos obvios)
+        if($image_path){
+            //Dar nombre único
+            $image_path_name = time().$image_path->getClientOriginalName(); 
+            /*Hace que el nombre del archivo sea único mediante la concatenación del tiempo
+             *  con el nombre del fichero original cuando lo suibe el usuario             
+             */
+            
+            //Guardar imagen en la carpeta storage/app/users
+            Storage::disk('users')->put($image_path_name, File::get($image_path));
+            /* Objeto Storage, su método disk, junto el nombre del disco donde guardaremos 
+             * la imagen (anteriormente creado 'users') debe ir acompañado del nombre que 
+             * recibirá el archivo ($image_path_name) y del propio arhcivo a subir (para ello
+             * usamos el objeto File::get, para obtener el archivo de la carpeta temporal 
+             * donde se encuentra la propia imagen subida por el usuario).             
+             */
+            
+            //Settear el nombre de la imagen en el objeto
+            $user->image = $image_path_name;
+	}
+```
+- Como última instrucción, se debe eliminar el "require" del label image_path del formulario para evitar problemas a la hora de actualizar el usuario si no se sube imagen de perfil
+
+## Clase 370
 ###
-
-
-
-
-
-
-
-
-
 
 
 
