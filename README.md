@@ -606,7 +606,54 @@ Ahora nos dirigimos al Controlador de User, al método update, para añadir la n
 - Como última instrucción, se debe eliminar el "require" del label image_path del formulario para evitar problemas a la hora de actualizar el usuario si no se sube imagen de perfil
 
 ## Clase 370
-###
+### Mostrar imagen Avatar
+Creamos un nuevo método en el User Controller para recuperar la imagen guardada. (También debemos importar el objeto Response, emepleado en el método:
+```html
+use Illuminate\Http\Response;
+(...)
+    public function getImage($filename) {
+        $file = Storage::disk('users')->get($filename);
+        return new Response ($file, 200);
+    }
+```
+Creamos la ruta para el nuevo método: **Route::get('/user/avatar/{filename}', [App\Http\Controllers\UserController::class, 'getImage'])->name('user.avatar');**
+- Paramos por parámetro obligatorio **{filename}** para que el método funcione correctamente.
+- Probando la url de ejemplo: http://proyecto-laravel.com.devel/user/avatar/1728289479cat.jpg nos devolvería una imagen pero sin formato (simbolos raros)
+- Para que nos muestre la imagen debemos darle formato <img> 
+- En nuestro caso la ubicaremos en el formulario de configuración de usuario (config.blade.php):
+```html
+<!--COMPROBAMOS SI EL USUARIO TIENE IMAGEN-->
+@if(Auth::user()->image)
+	<!--<img src="{{ url('/user/avatar/'.Auth::user()->image)}}"/>-->
+	<img src="{{ route('user.avatar', ['filename' => Auth::user()->image])}}" class="avatar"/>
+@endif				
+```
+- **Importante destacar que de ambas formas el resultado será el mismo**
+
+### Estilos imagen Avatar
+Añadimros la class="avatar" a la línea <img/> anterior y creamos una hoja de estilos css para editarla a nuestro gusto
+- Esta hoja de estilos debe añadirse dentro de una carpeta llamada css, e incluida dentro de la carpeta public
+- Victor incluye un nuevo archivo "style.css" dentro de la carpeta public/css/style.css
+- ~Sin embargo en Laravel 11, esta se ubica en resources/css/app.css (creamos dentro de la carpeta css un archivo llamado **style.css**~
+- incluimos los estilos que queremos añadir a la clase "avatar":
+```html
+.avatar{
+    margin-bottom: 15px;
+    width: 90px;
+}
+```
+- Para cargar la nueva hoja de estilos, nos dirigimos a resources/views/layouts/app.blade.php
+- Añadimos el link en dicho archivo: **<link href="{{asset('css/style.css')}}" rel="stylesheet">**
+
+
+
+
+
+
+
+
+
+
 
 
 

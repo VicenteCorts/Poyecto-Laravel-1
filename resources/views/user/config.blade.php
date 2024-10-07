@@ -75,11 +75,17 @@
                                 @enderror
                             </div>
                         </div>
-                        
-                        <div class="row mb-3">
+                          
+                        <!-- LABEL PARA AÑADIR IMAGEN -->
+                        <div class="row mb-3">     
                             <label for="image_path" class="col-md-4 col-form-label text-md-end">{{ __('Avatar') }}</label>
 
                             <div class="col-md-6">
+                                <!--COMPROBAMOS SI EL USUARIO TIENE IMAGEN-->
+                                @if(Auth::user()->image)
+                                    <!--<img src="{{ url('/user/avatar/'.Auth::user()->image)}}"/>-->
+                                    <img src="{{ route('user.avatar', ['filename' => Auth::user()->image])}}" class="avatar"/>
+                                @endif
                                 <input id="image_path" type="file" class="form-control @error('image_path') is-invalid @enderror" name="image_path" autocomplete="image">
 
                                 @error('image_path')
