@@ -464,8 +464,66 @@ $validate = $this->validate($request, [
 ```
 ## Clase 368
 ### Guardar datos en BBDD
+Para actualizar la BBDD debemos asignar los valores de la $request al objeto usuario que está identificado:
+```html
+	//ASignar nuevos valores al objeto del usuario
+        $user->name = $name;
+        $user->surname = $surname;
+        $user->nick = $nick;
+        $user->email = $email;
+        
+        //Ejecutar consulta y cambios en la BBDD
+        $user->update();
+```
 
+En definitiva el código completo de este método quedaría de la sigueinte forma:
+```html
+    public function update(Request $request) {
+        //Conseguir el usuario identificado
+        $user = \Auth::user() ;
+        $id = $user->id; //Barra invertida delante de Auth para evitar problemas ya que no tenemos ningún namespace indicao
+        
+        //Validación del formulario
+        $validate = $this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'nick' => ['required', 'string', 'max:255', 'unique:users,nick,'. $id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'. $id],
+			//ATENCIÓN CON LOS UNIQUE PARA LOS REGISTROS ÚNICOS
+        ]);
+       
+        //Recoger los datos del formulario
+        $name = $request->input('name');
+        $surname = $request->input('surname');
+        $nick = $request->input('nick');
+        $email = $request->input('email');
+        
+        //ASignar nuevos valores al objeto del usuario
+        $user->name = $name;
+        $user->surname = $surname;
+        $user->nick = $nick;
+        $user->email = $email;
+        
+        //Ejecutar consulta y cambios en la BBDD
+        $user->update();
+        
+        //Redirección
+        return redirect()->route('config')
+                         ->with(['message'=>'Usuario actualizado correctamente']);
+        
+    }
+```
 
+Para que el mensaje final fuera visible debemos incluir el siguiente código en la vista a la que nos redirecciona el return del **método update** anterior:
+```html
+@if(session('message'))
+	<div class="alert alert-success">
+		{{session('message')}}
+	</div>
+@endif
+```
+## Clase 369
+###
 
 
 
