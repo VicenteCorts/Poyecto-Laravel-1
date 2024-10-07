@@ -82,10 +82,7 @@
 
                             <div class="col-md-6">
                                 <!--COMPROBAMOS SI EL USUARIO TIENE IMAGEN-->
-                                @if(Auth::user()->image)
-                                    <!--<img src="{{ url('/user/avatar/'.Auth::user()->image)}}"/>-->
-                                    <img src="{{ route('user.avatar', ['filename' => Auth::user()->image])}}" class="avatar"/>
-                                @endif
+                                @include('includes.avatar')
                                 <input id="image_path" type="file" class="form-control @error('image_path') is-invalid @enderror" name="image_path" autocomplete="image">
 
                                 @error('image_path')

@@ -645,10 +645,50 @@ Añadimros la class="avatar" a la línea <img/> anterior y creamos una hoja de e
 - Para cargar la nueva hoja de estilos, nos dirigimos a resources/views/layouts/app.blade.php
 - Añadimos el link en dicho archivo: **<link href="{{asset('css/style.css')}}" rel="stylesheet">**
 
+## Clase 371
+### Creación de include poara el fragmento de mostrar el avatar
+- Creamos unanueva carpeta dentro de resource/views/ llamada "includes" y dentro de esta creamos una rchivo avatar.blade.php
+- Tomamos el dógio (Clase 370) para comprobar si el usuario tiene avatar, y lo pegamos en este nuevo archivo.
+- Ahora volvemos a config.blade.php y sustituimos el bloque de código que ya hemos copiado en el archivo anterior por: **@include('includes.avatar')**
 
+### Avatar en el Menú
+Para modificar el menú superior, debemos trabajar en el archivo **resource/views/layouts/app.blade.php**
+- Añadimos el siguiente fragmento para colocar la imagen usando el include anterior:
+```html
+<li class="nav-item">
+	@include('includes.avatar')
+</li>
+```
+- Retocamos un poco la vista del include añadiendo un div con la clase container-avatar
+```html
+@if(Auth::user()->image)
+<div class='container-avatar'>
+    <!--<img src="{{ url('/user/avatar/'.Auth::user()->image)}}"/>-->
+    <img src="{{ route('user.avatar', ['filename' => Auth::user()->image])}}" class="avatar"/>
+</div>
+@endif
+```
+- Damos estilos a las diferentes manifestaciones del include (public/css/style.css)
+```hml
+form .avatar{
+    margin-bottom: 15px;
+    width: 90px;
+}
 
+.navbar .container-avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 900px;
+    overflow: hidden;
+    margin-left: 20px;
+}
 
-
+.navbar .container-avatar img{
+   height: 100%
+}
+```
+## Clase 372
+### 
 
 
 
