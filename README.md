@@ -688,8 +688,18 @@ form .avatar{
 }
 ```
 ## Clase 372
-### 
+### "Solo para usuarios identificados"
+En esta clase haremos que mediante un middleware, se nos deniegue la entrada a la aplicación en caso de no estar identificados.
+- Para ello escribimos el siguiente código en UserController.php (extraido de HomeController.php):
+```html
+public function __construct(){
+	$this->middleware('auth');
+}
+```
+- **REALMENTE NO ENTIENDO EL FUNCIONAMIENTO EXACTO DE ESTE FRAGMENTO - INDAGAR MÁS EN ÉL**
 
+## Clase 373
+###
 
 
 
