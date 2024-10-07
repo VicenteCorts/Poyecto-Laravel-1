@@ -445,9 +445,24 @@ public function update(Request $request) {
 
 ## Clase 367
 ### Validar datos del fromularios
-
+- https://laravel.com/docs/11.x/validation
+- Validaremos el formulario en base a la request que nos llega en el método config de UserController. Para ello podemos tomar el fragmento de código de validación de RegisterController:
+```html
+$validate = $this->validate($request, [
+ 	    'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'nick' => ['required', 'string', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+]);
+```
 ### Comprobar registros "únicos"
-
+- Es interesante prestar atención a la norma de validación **'unique:users'** que valida que este dato sea único en la tabla de ususarios.
+- Para mejorarla y hacer que ignorara los campos del usuario que estamos validadndo (permitiendo que pueda poner su mismo nick y su mismo email deberiamos generar las sigueintes líneas de códig:
+´´´html
+'nick' => ['required', 'string', 'max:255', 'unique:users,nick,'. $id],
+'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'. $id],
+```
+## Clase 368
 ### Guardar datos en BBDD
 
 
