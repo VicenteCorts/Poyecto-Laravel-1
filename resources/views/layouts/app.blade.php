@@ -54,12 +54,12 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="">
+                                <a class="nav-link" href="{{route('home')}}">
                                     Inicio
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">
+                                <a class="nav-link" href="{{route('imagen.create')}}">
                                     Subir imagen
                                 </a>
                             </li>

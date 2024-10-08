@@ -699,7 +699,21 @@ public function __construct(){
 - **REALMENTE NO ENTIENDO EL FUNCIONAMIENTO EXACTO DE ESTE FRAGMENTO - INDAGAR MÁS EN ÉL**
 
 ## Clase 373
-###
+### Formulario para crear imágenes
+- Primero actualizamos el enlace de "inicio" en app.blade.php: <a class="nav-link" href="{{route('home')}}">Inicio</a>.
+- Luego crearemos el pack de controlador ruta y vista para IMAGEN
+- **Controlador:** nos vamos a la consola y escribimos: **$ php artisan make:controller ImageController**.
+- En este controlador, lo primero será restringir el acceso para usuarios no identificados con la función de la clase anterior
+- Igualmente crearemos un método (create) que nos devolverá una vista del archivo image.create (vista)
+- Creamos una carpeta image y dentro de esta un nuevo archivo para la vista -> create.blade.php; dentro de la carpeta views.
+- **Ruta:** Antes de empezar a crear la vista crearemos la ruta para un facil acceso (nos dirigimos a web.php)-> **Route::get('/subir-imagen', [App\Http\Controllers\ImageController::class, 'create'])->name('imagen.create');
+** || Igualmente añadimos la ruta al link de app.blade.php, en la parte de "Subir Imagen".
+- **Vista:** Copiamos el contenido de config.blade.php (de la carpeta views/user) y editamos sobre este contenido
+- En esta vista añadiremos un formulario para que el usuario pueda subir una imagen y su descripción:
+- El código será el siguiente:
+```html
+
+```
 
 
 
