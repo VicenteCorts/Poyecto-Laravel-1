@@ -839,8 +839,48 @@ public function save(Request $request) {
 - Tras crear la vista dle include, añadiremos el código: **@include('includes.message')** donde queramos que aparezca dicho mensaje (en config.blade.php -sustituido- y en home.blade.php para cuando subamos imagen)
 
 ## Clase 375
-### 
+### Listado de Imágenes - Preparando el backend
+https://laravel.com/docs/11.x/eloquent#retrieving-models
+- El listado de imágenes lo situaremos en la página principal, será necesario trabajar sobre el archivo App/Http/Controllers/HomeController.php
+- Importamos **use App\Models\Image;**
+- Procedemos a editar el método index para que, mediante el Eloquent ORM, mostremos todas las imágenes:
+```html
+    public function index()
+    {
+        $images = Image::orderBy('id', 'desc')->get(); //IMPORTANTE ESTA LÍNEA
+        return view('home', [
+            'images' => $images
+        ]);
+    }
+```
 
+### Listado de Imágenes - Preparando el frontend
+- Mediante un @foreach en home.blade.php mostraremos las diferentes imágenes que tengamos subidas:
+```html
+            @foreach ($images as $image)
+
+            <div class="card pub-image">
+
+
+                <div class="card-header">
+                    
+                    @if($image->user->image)
+                        <div class='container-avatar'>
+                            <img src="{{ route('user.avatar', ['filename' => $image->user->image])}}" class="avatar"/>
+                        </div>
+                    @endif
+                    <div class="data-user">
+                        {{ $image->user->name.' '.$image->user->surname.' | @'.$image->user->nick }}</div>
+                    </div>
+                
+                <div class="card-body">
+
+                </div>    
+            </div>
+            @endforeach
+```
+## Clase 375
+### Listado de Imágenes II - Preparando el frontend
 
 
 

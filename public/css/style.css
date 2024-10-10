@@ -3,7 +3,8 @@ form .avatar{
     width: 90px;
 }
 
-.navbar .container-avatar{
+.navbar .container-avatar,
+.pub-image .container-avatar{
     width: 40px;
     height: 40px;
     border-radius: 900px;
@@ -11,6 +12,16 @@ form .avatar{
     margin-left: 20px;
 }
 
-.navbar .container-avatar img{
+.navbar .container-avatar img,
+.pub-image .container-avatar img{
    height: 100%
+}
+
+.pub-image .container-avatar{
+    float: left;
+    margin-right: 15px;
+}
+.pub-image .data-user{
+    font-weight: bold;
+    line-height: 35px;
 }
