@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Image;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Http\Response;
 
 class ImageController extends Controller {
 
@@ -36,9 +37,7 @@ class ImageController extends Controller {
         $image->user_id = $user->id;
 //      $image->image_path = null;
         $image->description = $description;
-              
-//        var_dump($image);
-//        die();
+
         
         //Subir imagen a disco virtual de Laravel -> primero añadir: use Illuminate\Support\Facades\File; Y use Illuminate\Support\Facades\Storage;
         if($image_path){
@@ -47,6 +46,10 @@ class ImageController extends Controller {
             $image->image_path = $image_path_name;
         }
         
+                      
+//        var_dump($image_path_name);
+//        die();
+        
         // Guardar Obajeto Imagen en BBDD
         $image-> save();
         
@@ -54,5 +57,10 @@ class ImageController extends Controller {
         return redirect()->route('home')->with([
            'message' => 'La Foto ha sido subida correctamente' 
         ]);
+    }
+    
+    public function getImage($filename) {
+        $file = Storage::disk('images')->get($filename);
+        return new Response($file, 200);
     }
 }

@@ -879,8 +879,40 @@ https://laravel.com/docs/11.x/eloquent#retrieving-models
             </div>
             @endforeach
 ```
-## Clase 375
+## Clase 376
 ### Listado de Imágenes II - Preparando el frontend
+- Hacemos una edición de css simple para mostrar mejor el nickname de los usuarios:
+```html
+(archivo home.blade.php)
+
+<span class='nickname'>
+	{{' | @'.$image->user->nick }}
+</span>
+
+-------------------------------------
+(archivo style.css)
+
+.pub-image{
+    margin-bottom: 25px;
+}
+
+.pub-image .nickname{
+    color: gray;
+}
+```
+### Mostrar imágenes subidas y descripción
+- Primero debemos hacer un método (en ImageController) que nos devuelva las imágenes del "Storage" que nos interesan
+- Importamos **use Illuminate\Http\Response;**
+- Creamos el método getImage:
+```html
+    public function getImage($filename) {
+        $file = Storage::disk('images')->get($filename);
+        return new Response($file, 200);
+    }
+```
+- Creamos la ruta en web.php para acceder al método: **Route::get('/image/file/{filename}', [App\Http\Controllers\ImageController::class, 'getImage'])->name('imagen.file');**
+- Volvemos a home.blade.php y editamos el código, en la parte de class="card-body" para mostrar las imágenes
+
 
 
 

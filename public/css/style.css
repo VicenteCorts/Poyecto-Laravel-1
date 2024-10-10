@@ -12,6 +12,10 @@ form .avatar{
     margin-left: 20px;
 }
 
+.pub-image{
+    margin-bottom: 25px;
+}
+
 .navbar .container-avatar img,
 .pub-image .container-avatar img{
    height: 100%
@@ -24,4 +28,8 @@ form .avatar{
 .pub-image .data-user{
     font-weight: bold;
     line-height: 35px;
+}
+
+.pub-image .nickname{
+    color: gray;
 }
