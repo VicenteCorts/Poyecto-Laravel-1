@@ -775,9 +775,71 @@ public function __construct(){
 
 ```
 ## Clase 374
-###
+### Recibir datos del formulario anterior
+- Primero crearemos un método para el action del formulario (save):
+```html
+public function save(Request $request) {
+        var_dump($request);
+        die();
+    }
+```
+- Luego creamos la ruta en web.php para ver si el formulario llega correctamente: **Route::post('/image/save', [App\Http\Controllers\ImageController::class, 'save'])->name('image.save');**
+- Añadimos esta nueva ruta al formulario se Subir imagen: **action="{{route('image.save')}}"**
+- Probamos el formulario y vemos los resultados en el var_dump del método save. TODO OK.
+- Rehacemos el método para guardar dichos datos en la BBDD (Completo y complejo):
+```html
+    public function save(Request $request) {
+        
+        //Validación
+        $validate = $this->validate($request, [
+            'description' => ['required'],
+            'image_path' =>['required', 'image'],
+//            'image_path' =>['required', 'mimes:jpg,jpeg,png,gif'], MIMES: PARA DETERMINAR EL FORMATO EXACTO DEL ARCHIVO
+        ]);
+        
+        //Variables del formulario
+        $image_path = $request->file('image_path');
+        $description = $request->input('description');
+        
+        //Asignar valores al objeto -> primero añadir: use App\Models\Image;
+        $user = \Auth::user();
+        $image = new Image();
+        $image->user_id = $user->id;
+//      $image->image_path = null;
+        $image->description = $description;
+              
+//        var_dump($image);
+//        die();
+        
+        //Subir imagen a disco virtual de Laravel -> primero añadir: use Illuminate\Support\Facades\File; Y use Illuminate\Support\Facades\Storage;
+        if($image_path){
+            $image_path_name = time().$image_path->getClientOriginalName();
+            Storage::disk('images')->put($image_path_name, File::get($image_path));
+            $image->image_path = $image_path_name;
+        }
+        
+        // Guardar Obajeto Imagen en BBDD
+        $image-> save();
+        
+        //Redirección a la ruta home
+        return redirect()->route('home')->with([
+           'message' => 'La Foto ha sido subida correctamente' 
+        ]);
+    }
+```
+- Por último al hacer que el redirect del método nos mande un mensaje flash, hay que editar el archivo resources/views/home.blade.php (página principal) para que nos muestre dicha alerta.
+- Para ello creamos un archivo message en la carpeta includes dentro de views y lo completamos con el bloque de código para mostrar message que ya teníamos en config.blade.php (dentro de la carpeta user de views)
+```html
+@if(session('message'))
+	<div class="alert alert-success">
+		{{session('message')}}
+	</div>
+@endif
+```
+- Tras crear la vista dle include, añadiremos el código: **@include('includes.message')** donde queramos que aparezca dicho mensaje (en config.blade.php -sustituido- y en home.blade.php para cuando subamos imagen)
 
-
+## Clase 375
+### 
 
 
 
