@@ -913,7 +913,7 @@ https://laravel.com/docs/11.x/eloquent#retrieving-models
 - Creamos la ruta en web.php para acceder al método: **Route::get('/image/file/{filename}', [App\Http\Controllers\ImageController::class, 'getImage'])->name('imagen.file');**
 - Volvemos a home.blade.php y editamos el código, en la parte de class="card-body" para mostrar las imágenes
 
-
+Comprobando cambios git
 
 
 
