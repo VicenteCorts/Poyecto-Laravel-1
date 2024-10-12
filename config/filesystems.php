@@ -48,7 +48,7 @@ return [
         'users' => [
             'driver' => 'local',
             'root' => storage_path('app/users'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/avatares',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -56,7 +56,7 @@ return [
         'images' => [
             'driver' => 'local',
             'root' => storage_path('app/images'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/imagenes',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -87,7 +87,8 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        public_path('avatares') => storage_path('app/users'),
+        public_path('imagenes') => storage_path('app/images'),
     ],
 
 ];

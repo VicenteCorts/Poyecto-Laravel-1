@@ -853,6 +853,41 @@ https://laravel.com/docs/11.x/eloquent#retrieving-models
         ]);
     }
 ```
+### ACTUALIZACIÓN PERSONAL, STORAGE:LINK
+En laravel 11 debemos hacer storage:link para hacer que las carpetas de storage puedan usarse de forma publica en la carpeta public:
+https://kennyhorna.com/blog/file-storage-como-manejar-archivos-y-discos-en-laravel-0a85ea73-288d-4667-99f8-0f3d97c51a8d
+
+-En primer lugar debemos editar el archivo filesystems.php haciendo que los nuevos discos creados (users e images) queden de la siguiente fomra:
+```html
+        'users' => [
+            'driver' => 'local',
+            'root' => storage_path('app/users'),
+            'url' => env('APP_URL').'/avatares',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        
+        'images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/images'),
+            'url' => env('APP_URL').'/imagenes',
+            'visibility' => 'public',
+            'throw' => false,
+```
+- Y en el segundo apartado de links de este mismo archivo crear los enlaces simbólicos de la sigueinte forma teniendo en cuenta los nombres de url y las carpetas donde están almacenandos:
+```html
+    'links' => [
+        public_path('avatares') => storage_path('app/users'),
+        public_path('imagenes') => storage_path('app/images'),
+    ],
+```
+- Luego en la consola de comandos ejecutamos: **php artisan storage:link**
+- Esto creará dos carpetas (avatares e imagenes) donde se copiarán todos los archivos que se vayan subiendo mediante los métodos de inserción de imágenes.
+- Es importante editar bien los enlaces en el home.blade.php para que se vean de manera correcta: (siguiente paso)
+```html
+<img src="avatares/{{$image->user->image}}" class="avatar"/>
+<img src="imagenes/{{$image->image_path}}"/>
+```
 
 ### Listado de Imágenes - Preparando el frontend
 - Mediante un @foreach en home.blade.php mostraremos las diferentes imágenes que tengamos subidas:
@@ -866,15 +901,20 @@ https://laravel.com/docs/11.x/eloquent#retrieving-models
                     
                     @if($image->user->image)
                         <div class='container-avatar'>
-                            <img src="{{ route('user.avatar', ['filename' => $image->user->image])}}" class="avatar"/>
+                            <img src="avatares/{{$image->user->image}}" class="avatar"/>
                         </div>
                     @endif
                     <div class="data-user">
                         {{ $image->user->name.' '.$image->user->surname.' | @'.$image->user->nick }}</div>
                     </div>
+		</div>
                 
                 <div class="card-body">
-
+			<div class="image-container">
+                    		<!--<img src="{{route('image.file', ['filename' => $image->image_path])}}"/>-->
+                       		<img src="imagenes/{{$image->image_path}}"/>
+                         	<?php // var_dump($image->image_path); ?>
+                    	</div>
                 </div>    
             </div>
             @endforeach
@@ -900,6 +940,7 @@ https://laravel.com/docs/11.x/eloquent#retrieving-models
     color: gray;
 }
 ```
+### INNECESARIO???????????????????????????
 ### Mostrar imágenes subidas y descripción
 - Primero debemos hacer un método (en ImageController) que nos devuelva las imágenes del "Storage" que nos interesan
 - Importamos **use Illuminate\Http\Response;**
@@ -912,9 +953,6 @@ https://laravel.com/docs/11.x/eloquent#retrieving-models
 ```
 - Creamos la ruta en web.php para acceder al método: **Route::get('/image/file/{filename}', [App\Http\Controllers\ImageController::class, 'getImage'])->name('imagen.file');**
 - Volvemos a home.blade.php y editamos el código, en la parte de class="card-body" para mostrar las imágenes
-
-Comprobando cambios git
-
 
 
 

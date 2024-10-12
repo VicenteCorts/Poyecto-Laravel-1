@@ -17,7 +17,8 @@
                     @if($image->user->image)
                     <div class='container-avatar'>
                         <!--<img src="{{ route('user.avatar', ['filename' => $image->user->image])}}" class="avatar"/>-->
-                        <?php var_dump($image->user->image); ?>
+                        <img src="avatares/{{$image->user->image}}" class="avatar"/>
+                        <?php // var_dump($image->user->image); ?>
                     </div>
                     @endif
                     <div class="data-user">
@@ -30,8 +31,10 @@
                 <div class="card-body">
                     <div class="image-container">
                     <!--<img src="{{route('image.file', ['filename' => $image->image_path])}}"/>-->
+                        <img src="imagenes/{{$image->image_path}}"/>
+                         <?php // var_dump($image->image_path); ?>
                     </div>
-                    <?php var_dump($image->image_path); ?>
+                   
                     
                     <div class="likes">
                         
