@@ -1023,3 +1023,7 @@ ESTILOS
 ```
 ## Clase 379
 ### Número de Comentarios
+Añadiendo detrás de la palabra Comentarios "**{{count($image->comments)}}**" podemos mostrar el número de comentarios que tiene dicha foto.
+
+## Clase 380
+###
