@@ -1059,8 +1059,66 @@ Creamos el método "detail" dentro de ImageController. El cual, mediante un id p
 <a href="{{route('image.detail', ['id'=>$image->id])}}">
 <a href="{{route('image.detail', $image->id)}}">
 ```
+## Clase 381
+### Formatear Fechas
+- En primer lugar crearemos en home.blade.php el código para mostrar la fecha:
+```html
+<span class="nickname date">{{" | ".$image->created_at}}</span>
+```
+- Ahora vamos a darle formato a la fecha para que en vez de mostrarla tal cual, la muestre en modo: "subido hace X días"
+- Para ello crearemos un helper que realice dicha función siguiendo el artículo de Victor RobleS: https://victorroblesweb.es/2018/01/18/crear-helpers-en-laravel-5/
 
+### Creación de Helper
+- Creamos carpeta Helpers dentro de la carpeta app
+- Dentro creamos un archivo FromatTime.php
+- Dentro definimos el namespace y cargamos la BBDD y copiamos el resto del Helper de la url anteriormente citada.
+- xxxxxxxxxxx
+- Luego tenemos que crear un provider https://laravel.com/docs/11.x/providers
+- **php artisan make:provider FormatTimeServiceProvider**
+- Si revisamos el provider (app/providers/nuestronuevoprovider) viene con la función boot y register
+- xxxxxxxxxxx
+- Dentro de register cargamos el helper para acceder a la nueva clase:
+```html
+public function register():void
+{
+    require_once app_path() . '/Helpers/FormatTime.php';
+}
+```
+- Luego entramos en el directorio ∼config/app∼ bootstrap/providers (para laravel 11) y añadimos el array de providers si no está de manera automática: **App\Providers\FormatTimeServiceProvider::class,**
+- Igualmente debemos añadir un alias de nuestro Helper. ∼En config/app Para laravel 5∼ . En Laravel 11 o usamos el helper directamente: **App\Helpers\FormatTime::LongTimeFilter($image->created_at)** O creamos un apartado en config/app.php tal que así:
+- https://www.genspark.ai/spark/how-to-register-an-alias-in-laravel-11/86084fd5-6133-4fbf-954b-2491fe6d6b1b#adding-aliases-in-config%2Fapp.php-%5B2%5D
+```html
+use Illuminate\Support\Facades\Facade; //IMPORTANTE AÑADIR ESTA LÍNEA
 
+(...)
+(...)
+(...)
+(...)
+(...)
+
+/*
+    |--------------------------------------------------------------------------
+    | Class Aliases
+    |--------------------------------------------------------------------------
+    |
+    | This array of class aliases will be registered when this application
+    | is started. However, feel free to register as many as you wish as
+    | the aliases are "lazy" loaded so they don't hinder performance.
+    |
+    */
+
+    'aliases' => Facade::defaultAliases()->merge([
+        // 'Example' => App\Facades\Example::class,
+	'FormatTime' => App\Helpers\FormatTime::class,
+    ])->toArray(),
+```
+- Y así poder llamarlo sencillamente en cualquier parte de la aplicación: **\FormatTime::LongTimeFilter($image->created_at)**
+### Otra opción por defecto (propio)
+- https://laravel.com/docs/11.x/helpers#dates
+- Carbon es un Provider que viene por defecto en laravel 11 que hace una función similar al provider creado por Victor Robles, el problema es que viene en inglés los String. Habría que modificarlos. Se usa de la siguinte manera: **\Carbon\Carbon::now()->diffForHumans($image->created_at)**
+
+## Clase 382
+###
 
 
 

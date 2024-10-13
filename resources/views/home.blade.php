@@ -38,6 +38,12 @@
 
                     <div class="description">
                         <span class="nickname">{{'@'.$image->user->nick}}</span>
+                        <span class="nickname date">
+                            <!--{{' | '.$image->created_at}}-->
+                            <!--{{' | '. App\Helpers\FormatTime::LongTimeFilter($image->created_at)}}-->
+                            {{' | '. \FormatTime::LongTimeFilter($image->created_at)}}
+                            <!--{{' | '.\Carbon\Carbon::now()->diffForHumans($image->created_at)}}-->
+                        </span>
                         <p>{{$image->description}}</p>
                     </div>
 

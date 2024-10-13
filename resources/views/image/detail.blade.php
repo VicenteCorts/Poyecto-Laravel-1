@@ -17,9 +17,7 @@
                     @endif
                     <div class="data-user">
                         {{ $image->user->name.' '.$image->user->surname}}
-                        <span class='nickname'>
-                            {{' | @'.$image->user->nick }}
-                        </span>
+                        <span class='nickname'>{{' | @'.$image->user->nick }}</span>
                     </div>
                 </div>
                 
@@ -30,6 +28,7 @@
 
                     <div class="description">
                         <span class="nickname">{{'@'.$image->user->nick}}</span>
+                        <span class="nickname date">{{' | '. \FormatTime::LongTimeFilter($image->created_at)}}</span>
                         <p>{{$image->description}}</p>
                     </div>
 
