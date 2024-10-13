@@ -1026,4 +1026,58 @@ ESTILOS
 Añadiendo detrás de la palabra Comentarios "**{{count($image->comments)}}**" podemos mostrar el número de comentarios que tiene dicha foto.
 
 ## Clase 380
-###
+### Detalles de una imagen
+Creamos el método "detail" dentro de ImageController. El cual, mediante un id pasado como parámetro nos retorna el objeto imagen completo usando **Image::find($id)**, y posteriormente nos devuelve una vista donde mostraremos dicha información.
+```html
+    public function detail($id) {
+        $image = Image::find($id);
+        
+        return view('image.detail',[
+            'image' => $image
+        ]);
+    }
+```
+- Ahora crearemos la vista image.detail (archivo detail.blade.php dentro de la carpeta image de views). Su contenido será simimlar al de home.blade.php pero elimnado el foreach y la paginación.
+- A continuación creamos la ruta de esta nueva vista: **Route::get('/imagen/{id}', [App\Http\Controllers\ImageController::class, 'detail'])->name('image.detail');**
+- En home.blade.php creamos un enlace para poder acceder a esta nueva vista mediante su ruta: **<a href="{{route('image.detail', ['id'=>$image->id])}}">**
+- Si hay problemas, probar **$ php artisan route:clear** Para limpiar el cache de las rutas
+- YO
+- Yo, debido a errores anteriores con las imagenes en Storage, debo hacer cambios en los enlaces de las imágenes para que estas se vean correctamente y no dejen "pensando" el servidor para siempre.
+- Para ello, he de añadir la ruta absoluta del vhost en cada imagen:
+```html
+<img src="http://proyecto-laravel.com.devel/avatares/{{$image->user->image}}" class="avatar"/>
+<img src="http://proyecto-laravel.com.devel/imagenes/{{$image->image_path}}"/>
+<img src="http://proyecto-laravel.com.devel/assets/heartgray.png" />
+```
+### IMPORTANTE
+### Mejor hacer los enlaces usando: <img src="<?=env('APP_URL')?>/avatares/{{$image->user->image}}" class="avatar"/>
+**<?=env('APP_URL')?>**
+- (Siempre y cuando se haya rellenado el campo APP_URL en el archivo .env)
+### IMPORTANTE
+### Las llamadas a rutas pueden ser así o así:
+```html
+<a href="{{route('image.detail', ['id'=>$image->id])}}">
+<a href="{{route('image.detail', $image->id)}}">
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

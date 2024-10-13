@@ -30,6 +30,16 @@ form .avatar{
     line-height: 35px;
 }
 
+.pub-image .data-user a{
+    color: #444;
+    text-decoration: none;
+}
+
+.pub-image .data-user a:hover{
+    color: #444;
+    text-decoration: underline;
+}
+
 .pub-image .nickname{
     color: gray;
 }

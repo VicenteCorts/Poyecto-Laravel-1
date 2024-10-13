@@ -50,4 +50,5 @@ Route::get('/user/avatar/{filename}', [App\Http\Controllers\UserController::clas
 Route::get('/subir-imagen', [App\Http\Controllers\ImageController::class, 'create'])->name('imagen.create');
 Route::post('/image/save', [App\Http\Controllers\ImageController::class, 'save'])->name('image.save');
 Route::get('/image/file/{filename}', [App\Http\Controllers\ImageController::class, 'getImage'])->name('image.file');
+Route::get('/imagen/{id}', [App\Http\Controllers\ImageController::class, 'detail'])->name('image.detail');
 

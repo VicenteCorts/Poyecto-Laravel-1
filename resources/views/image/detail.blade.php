@@ -3,37 +3,29 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
 
             @include('includes.message')
-            @foreach ($images as $image)
 
             <div class="card pub-image">
 
                 <div class="card-header">
                     @if($image->user->image)
                     <div class='container-avatar'>
-                        <!--<img src="{{ route('user.avatar', ['filename' => $image->user->image])}}" class="avatar"/>-->
-                        <img src="avatares/{{$image->user->image}}" class="avatar"/>
-                        <?php // var_dump($image->user->image); ?>
+                        <img src="<?=env('APP_URL')?>/avatares/{{$image->user->image}}" class="avatar"/>
                     </div>
                     @endif
-
                     <div class="data-user">
-                        <a href="{{route('image.detail', ['id'=>$image->id])}}">
-                            {{ $image->user->name.' '.$image->user->surname}}
-                            <span class='nickname'>
-                                {{' | @'.$image->user->nick }}
-                            </span>
-                        </a>
+                        {{ $image->user->name.' '.$image->user->surname}}
+                        <span class='nickname'>
+                            {{' | @'.$image->user->nick }}
+                        </span>
                     </div>
                 </div>
-
+                
                 <div class="card-body">
                     <div class="image-container">
-                    <!--<img src="{{route('image.file', ['filename' => $image->image_path])}}"/>-->
-                        <img src="imagenes/{{$image->image_path}}"/>
-                        <?php // var_dump($image->image_path); ?>
+                        <img src="<?=env('APP_URL')?>/imagenes/{{$image->image_path}}"/>
                     </div>
 
                     <div class="description">
@@ -42,7 +34,7 @@
                     </div>
 
                     <div class="likes">
-                        <img src="assets/heartgray.png" />
+                        <img src="<?=env('APP_URL')?>/assets/heartgray.png" />
                     </div>
 
                     <div class="comments">
@@ -50,16 +42,9 @@
                             Comentarios ({{count($image->comments)}})
                         </a>
                     </div>
-                </div>  
-
+                </div>
+                
             </div>
-
-            @endforeach
-
-            <!--PAGINACION-->
-            <div class="clearfix"></div>
-            {{$images->links()}}
-
         </div>        
     </div>
 </div>
