@@ -954,9 +954,28 @@ https://kennyhorna.com/blog/file-storage-como-manejar-archivos-y-discos-en-larav
 - Creamos la ruta en web.php para acceder al método: **Route::get('/image/file/{filename}', [App\Http\Controllers\ImageController::class, 'getImage'])->name('imagen.file');**
 - Volvemos a home.blade.php y editamos el código, en la parte de class="card-body" para mostrar las imágenes
 
+## Clase 377
+### Paginación
+- Nos dirigimos al método index del HomeController y cambiamos el get, por **paginate();**
+- Ahora crearemos los links para ir navegando a través de la paginación realizada.
+- En home.blade.php añadimos el siguiente código tras el @endforeach:
+```html
+@endforeach
 
+            <!--PAGINACION-->
+            <div class="clearfix"></div>
+                {{$images->links()}}
+```
+Si da errores en cuanto a diseño, se puede cambiar por **simplePaginate** o dirigirnos a  App\Providers\AppServiceProvider:
 
-
-
-
+```html
+use Illuminate\Pagination\Paginator;
+ 
+public function boot()
+{
+    Paginator::useBootstrap();
+}
+```
+## Clase 378
+###
 

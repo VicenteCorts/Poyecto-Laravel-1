@@ -13,7 +13,7 @@
 
 
                 <div class="card-header">
-                    
+
                     @if($image->user->image)
                     <div class='container-avatar'>
                         <!--<img src="{{ route('user.avatar', ['filename' => $image->user->image])}}" class="avatar"/>-->
@@ -32,22 +32,29 @@
                     <div class="image-container">
                     <!--<img src="{{route('image.file', ['filename' => $image->image_path])}}"/>-->
                         <img src="imagenes/{{$image->image_path}}"/>
-                         <?php // var_dump($image->image_path); ?>
+                        <?php // var_dump($image->image_path); ?>
                     </div>
-                   
-                    
+
+
                     <div class="likes">
-                        
+
                     </div>
-                    
+
                     <div class="description">
                         <span class="nickname">{{'@'.$image->user->nick}}</span>
                         <p>{{$image->description}}</p>
                     </div>
                 </div>    
             </div>
+
             @endforeach
-        </div>
+
+            <!--PAGINACION-->
+            <div class="clearfix"></div>
+                {{$images->links()}}
+            
+
+        </div>        
     </div>
 </div>
 @endsection
