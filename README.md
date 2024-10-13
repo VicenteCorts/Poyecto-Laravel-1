@@ -977,5 +977,49 @@ public function boot()
 }
 ```
 ## Clase 378
-###
+### Maquetación de Comentarios y Likes
+- Añadimos un botón para enlazar más tarde con los comentarios y le damos estilos.
+- Para el contenedor de likes, buscaremos un icono de corazon en: https://www.iconsdb.com/black-icons/black-heart-icons.html
+- Lo descargamos en formato png 64x64 tanto en gris como en rojo y los incluimos en una carpte "assets por ejemplo" dentro de la carpeta public.
+- Lo mostramos mediante código y le damos estilos
 
+El resultado del código y los estilos de esta clase serían los siguientes:
+```html
+CODIGO
+
+<div class="likes">
+	<img src="assets/heartgray.png" />
+</div>
+
+<div class="comments">
+	<a href="" class="btn btn-sm btn-warning btn-comments">
+		Comentarios
+	</a>
+</div>
+
+----------------------------------------------------------
+ESTILOS
+
+.pub-image .description{
+    padding: 20px;
+    padding-bottom: 0px;
+}
+
+.pub-image .btn-comments{
+    margin: 20px;
+    margin-top: 0px;
+    margin-left: 0px;
+}
+
+.likes{
+    float: left;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+
+.likes img{
+    width: 20px;
+}
+```
+## Clase 379
+### Número de Comentarios
