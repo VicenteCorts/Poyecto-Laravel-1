@@ -1229,6 +1229,16 @@ No es necesario crear un nuevo método ya que el objeto $image dentro de la deta
 ```
 ## Clase 387
 ### Ordenar comentarios
+Para hacer que se muestren de más nuevo a más antiguo debemos hacer una modificación en el model de Imagen:
+- Añadimos orderBy al return del método comments:
+```html
+    public function comments(): HasMany {
+        return $this->hasMany(Comment::class)->orderBy('id', 'desc');
+    }
+```
+## Clase 388
+### Eliminar Comentario (si se es dueño)
+
 
 
 
