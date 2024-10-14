@@ -13,7 +13,7 @@ class CommentController extends Controller {
     public function save(Request $request) {
 
         $validate = $request->validate([
-            'image_id' => 'integrer|required',
+            'image_id' => 'numeric|required',
             'content' => 'string|required',
         ]);
 

@@ -1174,9 +1174,14 @@ $validate = $this-> validate($request, [
 ```
 ## Clase 384
 ### Mejora de la validación
+Añadimos dentro del textaera del formulario de comentarios una ternaria para aplicar una clase adicional en caso de error:
+```html
+<textarea class="form-control {{$errors->has('content') ? 'is-invalid' : ''  }}" name="content"></textarea>
+```
+- Igualmente se han cambiado algunas cosas de creat.blade.php para que se muestren los inputs en rojo en caso de fallo en el require.
 
 
-
+## Clase 385
 ### Guardar Comentarios en BBDD
 
 
