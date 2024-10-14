@@ -1137,7 +1137,49 @@ use Illuminate\Support\Facades\Facade; //IMPORTANTE AÑADIR ESTA LÍNEA
 ```
 
 ## Clase 383
+### Controlador de Comentarios
+Como los comentarios son algo independiente de las imágenes y los Usuarios, crearemos un nuevo controlador para gestionar todo lo relacionado a ellos
+- **php artisan make:controller CommentController**
+- Accedemos al controlador de Comment (app/http/Controllers)
+- Le añadimos el middleware básico de autenticación
+```hmtl
+    public function __construct(){
+        $this->middleware('auth');
+    }
+```
+- Y creamos un método para almacenar el contenido del formulario en la BBDD (save).
+- Finalemnte creamos la ruta para este método y añadimos el action al formulario de detail.blade.php:
+```html
+RUTA:
+Route::post('/comment/save', [App\Http\Controllers\CommentController::class, 'save'])->name('comment.save');
+------------------------
+ACTION:
+<form action="{{route('comment.save')}}" method="POST">
+```
+
 ### Validar Formulario de Comentarios
+Viendo la documentación de Laravel11, encontramos un escritura de la validación más adecuada que la que emplea Victor Robles:
+```html
+NUEVA FORMA:
+$validate = $request->validate([
+            'image_id' => 'integrer|required',
+            'content' => 'string|required',
+        ]);
+--------------------------------------------------
+VICTOR ROBLES:
+$validate = $this-> validate($request, [
+            'image_id' => 'integrer|required',
+            'content' => 'string|required',
+        ]);
+```
+## Clase 384
+### Mejora de la validación
+
+
+
+### Guardar Comentarios en BBDD
+
+
 
 
 

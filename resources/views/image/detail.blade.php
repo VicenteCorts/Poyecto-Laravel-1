@@ -12,7 +12,7 @@
                 <div class="card-header">
                     @if($image->user->image)
                     <div class='container-avatar'>
-                        <img src="<?=env('APP_URL')?>/avatares/{{$image->user->image}}" class="avatar"/>
+                        <img src="<?= env('APP_URL') ?>/avatares/{{$image->user->image}}" class="avatar"/>
                     </div>
                     @endif
                     <div class="data-user">
@@ -20,10 +20,10 @@
                         <span class='nickname'>{{' | @'.$image->user->nick }}</span>
                     </div>
                 </div>
-                
+
                 <div class="card-body">
                     <div class="image-container image-detail">
-                        <img src="<?=env('APP_URL')?>/imagenes/{{$image->image_path}}"/>
+                        <img src="<?= env('APP_URL') ?>/imagenes/{{$image->image_path}}"/>
                     </div>
 
                     <div class="description">
@@ -33,28 +33,33 @@
                     </div>
 
                     <div class="likes">
-                        <img src="<?=env('APP_URL')?>/assets/heartgray.png" />
+                        <img src="<?= env('APP_URL') ?>/assets/heartgray.png" />
                     </div>
 
                     <div class="clearfix"></div>
                     <div class="comments">
                         <h2>Comentarios ({{count($image->comments)}})</h2>
                         <hr>
-                        
-                        <form action="" method="POST">
+
+                        <form action="{{route('comment.save')}}" method="POST">
                             @csrf
                             <input type="hidden" name="image_id" value="{{$image->id}}"/>
                             <p>
                                 <textarea class="form-control" name="content" required></textarea>
+                                @if($errors->has('content'))
+                                <span role='alert'>
+                                    <strong>{{$errors->first('content')}}</strong>
+                                </span>
+                                @endif
                             </p>
                             <button type="submit" class="btn btn-success">
                                 Enviar
                             </button>
                         </form>
-                        
+
                     </div>
                 </div>
-                
+
             </div>
         </div>        
     </div>

@@ -51,4 +51,5 @@ Route::get('/subir-imagen', [App\Http\Controllers\ImageController::class, 'creat
 Route::post('/image/save', [App\Http\Controllers\ImageController::class, 'save'])->name('image.save');
 Route::get('/image/file/{filename}', [App\Http\Controllers\ImageController::class, 'getImage'])->name('image.file');
 Route::get('/imagen/{id}', [App\Http\Controllers\ImageController::class, 'detail'])->name('image.detail');
+Route::post('/comment/save', [App\Http\Controllers\CommentController::class, 'save'])->name('comment.save');
 
