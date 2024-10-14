@@ -1183,6 +1183,39 @@ Añadimos dentro del textaera del formulario de comentarios una ternaria para ap
 
 ## Clase 385
 ### Guardar Comentarios en BBDD
+Añadimos el objeto Comment a CommentController para poder instanciar objetos Comment: **use App\Models\Comment;**
+- Completamos el método **save** con la agregación de valores al objeto, la subida a BBDD y la redirección:
+```html
+    public function save(Request $request) {
+
+        //Validación
+        $validate = $request->validate([
+            'image_id' => 'numeric|required',
+            'content' => 'string|required',
+        ]);
+
+        //Recoger Datos
+        $user = \Auth::user();
+        $image_id = $request->input('image_id');
+        $content = $request->input('content');
+
+        //Asignación de valores al nuevo objeto
+        $comment = new Comment();
+        $comment->user_id = $user->id;
+        $comment->image_id = $image_id;
+        $comment->content = $content;
+
+        //Guardamos en la BBD
+        $comment->save();
+
+        //Redirección
+        return redirect()->route('image.detail', ['id' => $image_id])
+                        ->with(['message' => 'Comentario añadido correctamente'
+        ]);
+    }
+```
+## Clase 386
+### Listar Comentarios
 
 
 
