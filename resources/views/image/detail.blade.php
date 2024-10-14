@@ -7,7 +7,7 @@
 
             @include('includes.message')
 
-            <div class="card pub-image">
+            <div class="card pub-image pub-image-detail">
 
                 <div class="card-header">
                     @if($image->user->image)
@@ -22,7 +22,7 @@
                 </div>
                 
                 <div class="card-body">
-                    <div class="image-container">
+                    <div class="image-container image-detail">
                         <img src="<?=env('APP_URL')?>/imagenes/{{$image->image_path}}"/>
                     </div>
 
@@ -36,10 +36,22 @@
                         <img src="<?=env('APP_URL')?>/assets/heartgray.png" />
                     </div>
 
+                    <div class="clearfix"></div>
                     <div class="comments">
-                        <a href="" class="btn btn-sm btn-warning btn-comments">
-                            Comentarios ({{count($image->comments)}})
-                        </a>
+                        <h2>Comentarios ({{count($image->comments)}})</h2>
+                        <hr>
+                        
+                        <form action="" method="POST">
+                            @csrf
+                            <input type="hidden" name="image_id" value="{{$image->id}}"/>
+                            <p>
+                                <textarea class="form-control" name="content" required></textarea>
+                            </p>
+                            <button type="submit" class="btn btn-success">
+                                Enviar
+                            </button>
+                        </form>
+                        
                     </div>
                 </div>
                 

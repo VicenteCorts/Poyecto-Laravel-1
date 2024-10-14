@@ -1117,8 +1117,27 @@ use Illuminate\Support\Facades\Facade; //IMPORTANTE AÑADIR ESTA LÍNEA
 - https://laravel.com/docs/11.x/helpers#dates
 - Carbon es un Provider que viene por defecto en laravel 11 que hace una función similar al provider creado por Victor Robles, el problema es que viene en inglés los String. Habría que modificarlos. Se usa de la siguinte manera: **\Carbon\Carbon::now()->diffForHumans($image->created_at)**
 
+!!warning: in the working copy of 'bootstrap/providers.php', CRLF will be replaced by LF the next time Git touches it
+
 ## Clase 382
-###
+### Formulario de comentarios
+(Un poco de maquetación de frontend)
+- Creamos el formulario de comentarios dentro de detail.blade.php; bajo el h2 de Comentarios:
+```html
+                        <form action="" method="POST">
+                            @csrf
+                            <input type="hidden" name="image_id" value="{{$image->id}}"/>
+                            <p>
+                                <textarea class="form-control" name="content" required></textarea>
+                            </p>
+                            <button type="submit">
+                                Enviar
+                            </button>
+                        </form>
+```
+
+## Clase 383
+### Validar Formulario de Comentarios
 
 
 
