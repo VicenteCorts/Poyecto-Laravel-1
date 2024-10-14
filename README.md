@@ -1216,7 +1216,19 @@ Añadimos el objeto Comment a CommentController para poder instanciar objetos Co
 ```
 ## Clase 386
 ### Listar Comentarios
-
+No es necesario crear un nuevo método ya que el objeto $image dentro de la detail.blade.php ya tiene dentro los valores necesarios para acceder a los comentarios
+- Después del formulario de comentarios añadimos:
+```html
+                        @foreach($image->comments as $comment)
+                        <div class="comment">
+                                <span class="nickname">{{'@'.$comment->user->nick}}</span>
+                                <span class="nickname date">{{' | '. \FormatTime::LongTimeFilter($comment->created_at)}}</span>
+                                <p>{{$comment->content}}</p>
+                        </div>
+                        @endforeach
+```
+## Clase 387
+### Ordenar comentarios
 
 
 
