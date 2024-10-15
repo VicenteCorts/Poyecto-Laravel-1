@@ -1404,27 +1404,33 @@ window.addEventListener("load", function(){
 - Cargamos esta prueba en nuestra pantilla principal; resources/views/layouts/app.blade.php
 - Añadimos el script: **<script src="/js/main.js"></script>** (empleamos /js ya que esta dirigiendose a la carpeta del public)
 - Al cargar la página nos sale un pop-up del alert que habíamos creado en el main.js
+
 ## Clase 393
+### Comprobar JQUERY
+- Cambiamos el código de main.js para ver si tenemos jquery instalado: **$('body').css('background', 'red');**
+- En caso de que el color de fondo no cambie a rojo, significa que no está instalado. También podemos revisar la consola del navegador que nos dirá Uncaught error "$" o similar; significa que no está instalado jquery
+- Para solucionar esto debemos ir nuevamente al archivo app.blade.php y añadir encima de nuestro script la siguiente línea: **    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>**
+- Ahora debería cambiar el color y no dar mensajes de error en la consola del navegador
 ### Cambiar la Función del JS para Cabmiar Color del corazon al clicar
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```html
+//RANDOM DE LAS PREGUNTAS DE LA CLASE
+ window.addEventListener("load", function(){
+	$('.btn-like').css('cursor','pointer');
+	$('.btn-dislike').css('cursor','pointer');
+	$(document).on("click", ".btn-like", function(e){
+                console.log('like');
+		$(this).addClass('btn-dislike').removeClass('btn-like');
+		$(this).attr('src', 'assets/heartred.png');
+	});
+	$(document).on("click", ".btn-dislike", function(e){
+                console.log('dislike');
+		$(this).addClass('btn-like').removeClass('btn-dislike');
+		$(this).attr('src', 'assets/heartgray.png');
+	});
+});
+```
+## Clase 394
+###
 
 
 
