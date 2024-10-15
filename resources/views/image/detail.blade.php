@@ -33,7 +33,22 @@
                     </div>
 
                     <div class="likes">
-                        <img src="<?= env('APP_URL') ?>/assets/heartgray.png" />
+
+                        <!--Detector de likes del usuario logeado-->
+                        <?php $user_like = false; ?>
+
+                        @foreach($image->likes as $like)
+                            @if($like->user->id == Auth::user()->id)
+                                <?php $user_like = true; ?> 
+                            @endif
+                        @endforeach
+
+                        @if($user_like)
+                            <img src="<?= env('APP_URL') ?>/assets/heartred.png" data-id="{{$image->id}}" class="btn-dislike"/>
+                        @else
+                            <img src="<?= env('APP_URL') ?>/assets/heartgray.png" data-id="{{$image->id}}" class="btn-like"/>
+                        @endif
+                        <span class="numer_likes">{{count($image->likes)}}</span>
                     </div>
 
                     <div class="clearfix"></div>
@@ -62,13 +77,13 @@
                             <span class="nickname">{{'@'.$comment->user->nick}}</span>
                             <span class="nickname date">{{' | '. \FormatTime::LongTimeFilter($comment->created_at)}}</span>
                             <p>{{$comment->content}}<br>
-                            
-                            <!--Boton para borrar comentarios-->
-                            @if (Auth::check() && ($comment->user_id == Auth::user()->id || $comment->image->user_id == Auth::user()->id))
-                            <a href="{{route('comment.delete', ['id' => $comment->id])}}" class="btn btn-sm btn-danger">
-                                Eliminar
-                            </a>
-                            @endif
+
+                                <!--Boton para borrar comentarios-->
+                                @if (Auth::check() && ($comment->user_id == Auth::user()->id || $comment->image->user_id == Auth::user()->id))
+                                <a href="{{route('comment.delete', ['id' => $comment->id])}}" class="btn btn-sm btn-danger">
+                                    Eliminar
+                                </a>
+                                @endif
                             </p>
                         </div>
                         @endforeach

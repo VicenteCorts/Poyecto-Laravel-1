@@ -1,4 +1,4 @@
-npm# PROYECTO LARAVEL - INSTAGRAM
+# PROYECTO LARAVEL - INSTAGRAM
 ## Clase 354
 ### Creando la BBDD
 #### Tabla USERS
@@ -1511,7 +1511,27 @@ window.addEventListener("load", function () {
 });
 ```
 ## Clase 395
-### 
+### Funciones AJAX para la parte detail
+Copiamos el bloque likes de home.blade.php y lo pegamos en detail.blade.php sustituyendo los enlaces de las imágenes para evitar que den error: **<?= env('APP_URL') ?>/**
+```html
+@if($user_like)
+	<img src="<?= env('APP_URL') ?>/assets/heartred.png" data-id="{{$image->id}}" class="btn-dislike"/>
+@else
+	<img src="<?= env('APP_URL') ?>/assets/heartgray.png" data-id="{{$image->id}}" class="btn-like"/>
+@endif
+```
+
+- En main.js también debemos hace un cambio; debemos añadir "url+" delante de las rutas del src de cada función
+```html
+(...)
+$(this).attr('src', url+'/assets/heartred.png');
+(...)
+$(this).attr('src', url+'/assets/heartgray.png');
+(...)
+```
+## Clase 396
+### Listar Publicaciones a las que hemos dado Like
+
 
 
 
