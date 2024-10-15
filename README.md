@@ -1531,11 +1531,44 @@ $(this).attr('src', url+'/assets/heartgray.png');
 ```
 ## Clase 396
 ### Listar Publicaciones a las que hemos dado Like
+- Creamos un nuevo método "index" en LikeController; muy similar al método "index" de HomeController
+- Revisamos que esté importado el modelo Like en el Controlador: **use App\Models\Like;**
+- Modificamos los nombres de las variables, el objeto Like::orderBy y el nombre de una nueva vista que crearemos a continuación:
+```html
+    public function index() {
+        $likes = Like::orderBy('id', 'desc')->paginate(5);
+        return view('like.index', [
+            'likes' => $likes
+        ]);
+    }
+```
+- Creamos la vista like.index (resources/views/like/index.blade.php) -> de momento con un h1 para ver si funciona
+- Creamos la ruta en web.php: **Route::get('/likes', [App\Http\Controllers\LikeController::class, 'index'])->name('likes');**
+- Optimizamos la consulta de LikeController::index ya que con el método actual estamso sacando todos los likes de la BBDD y solo queremos los del usuario autenticado
+```html
+    public function index() {
+        $user = \Auth::user();
+        $likes = Like::where('user_id' , $user->id)
+                ->orderBy('id', 'desc')
+                ->paginate(5);
+        return view('like.index', [
+            'likes' => $likes
+        ]);
+    }
+```
+- Ahora modificamos el index.blade.php de like. Copiaremos la estructura de home.blade.php y trabajaremos sobre ella.
+- Victor se molesta en hacer un nuevo include (images) para el bloque de dentro del foreach de home.blade.php y reutilizarlo en index.blade.php y en la propia home.blade.php
+```html
+@include('includes.image', ['image' => $image]) // PARA HOME.BLADE.PHP
+@include('includes.image', ['image' => $like->image]) // PARA INDEX.BLADE.PHP -> porque en el modelo de like tenemos el método image
+---------------------------------------
+<!--PAGINACION-->
+<div class="clearfix"></div>
+{{$likes->links()}}
+```
 
-
-
-
-
+## Clase 397
+###
 
 
 

@@ -7,7 +7,9 @@
 
             @include('includes.message')
             @foreach ($images as $image)
-
+                
+                <!-- ARROBA include('includes.image', ['image' => $image]) PARA SUSTITUIR EL CONTENIDO DEL FOREACH-->
+            
             <div class="card pub-image">
 
                 <div class="card-header">
