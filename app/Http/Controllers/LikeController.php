@@ -32,18 +32,38 @@ class LikeController extends Controller {
 
             //En este caso no hacmeos redirección porque va a ser una acción AJAX
             //var_dump($like);
-            
+
             return response()->json([
-                'like' => $like
+                        'like' => $like
             ]);
-        }else{
+        } else {
             return response()->json([
-                'message' => 'El like ya existe'
+                        'message' => 'El like ya existe'
             ]);
         }
     }
 
     public function dislike($image_id) {
-        
+        //Recoger datos del usuario y de la imagen
+        $user = \Auth::user();
+
+        //Condición para que solo se pueda dar un like por persona a cada foto
+        $like = Like::where('user_id', $user->id)
+                ->where('image_id', $image_id)
+                ->first(); //NOS PERMITE SACAR UN ÚNICO OBJETO DE LA BBD
+
+        if ($like) {//Si obtenemos un objeto like de la BBDD:
+            //Eliminamos dicho objeto Like() de la BBDD
+            $like->delete();
+
+            return response()->json([
+                        'like' => $like,
+                        'message' => 'Has dado dislike'
+            ]);
+        } else {
+            return response()->json([
+                        'message' => 'El like NO existe'
+            ]);
+        }
     }
 }

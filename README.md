@@ -1331,10 +1331,36 @@ Para hacer que se muestren de más nuevo a más antiguo debemos hacer una modifi
 ```
 ## Clase 390
 ### Método Dislike
-- Creamos el método dislike (pasando $image_id por parámetro):
+- Creamos el método dislike (pasando $image_id por parámetro); esta vez usamos el método "first" en la condición en vez de "count":
 ```html
+    public function dislike($image_id) {
+        //Recoger datos del usuario y de la imagen
+        $user = \Auth::user();
+
+        //Condición para que solo se pueda dar un like por persona a cada foto
+        $like = Like::where('user_id', $user->id)
+                ->where('image_id', $image_id)
+                ->first(); 				//NOS PERMITE SACAR UN ÚNICO OBJETO DE LA BBD
+
+        if ($like) {//Si obtenemos un objeto like de la BBDD:
+            //Eliminamos dicho objeto Like() de la BBDD
+            $like->delete();
+
+            return response()->json([
+                        'like' => $like,
+                        'message' => 'Has dado dislike'
+            ]);
+        } else {
+            return response()->json([
+                        'message' => 'El like NO existe'
+            ]);
+        }
+    }
 ```
-- Creamos una ruta para este nuevo método: ****
+- Creamos una ruta para este nuevo método: **Route::get('/dislike/{id}', [App\Http\Controllers\LikeController::class, 'dislike'])->name('like.delete');**
+## Clase 391
+### Detectar Likes
+
 
 
 
