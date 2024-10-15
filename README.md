@@ -1238,7 +1238,7 @@ Para hacer que se muestren de más nuevo a más antiguo debemos hacer una modifi
 ```
 ## Clase 388
 ### Eliminar Comentario (si se es dueño)
-Creamos el método delete dentro de CommentController
+- Creamos el método delete dentro de CommentController
 ```html
     public function delete($id) {
         //Conseguir datos del usuario logeado
@@ -1264,9 +1264,77 @@ Creamos el método delete dentro de CommentController
         }
     }
 ```
-A continuación creamos la ruta en web.php: ****
+- A continuación creamos la ruta en web.php: **Route::get('/comment/delete/{id}', [App\Http\Controllers\CommentController::class, 'delete'])->name('comment.delete');**
+- Después crearemos un "link" en detail.blade.php para ejecutar la acción de borrar comentario; bajo la condición de que el usuario logged sea el dueño del propio comentario o el usuario sea el dueño de la imagen:
+```html
+<p>{{$comment->content}}<br>
+                            
+<!--Boton para borrar comentarios-->
+<!--Es el mimso condicional que en CommentController-delete pero cambiando $user por Auth::check()-->
+@if (Auth::check() && ($comment->user_id == Auth::user()->id || $comment->image->user_id == Auth::user()->id))
+<a href="{{route('comment.delete', ['id' => $comment->id])}}" class="btn btn-sm btn-danger">
+	Eliminar
+</a>
+@endif
+</p>
+```
+## Clase 389
+### Método Like
+- Creamos el controlador de like por consola: **php artisan make:controller LikeController**
+- Accedemos al controlador (app/http/controllers/LikController)
+- Añadimos el middleware de autenticación
+- Creamos el método like (pasando $image_id por parámetro):
+```html
+    public function like($image_id) {
+        //Recoger datos del usuario y de la imagen
+        $user = \Auth::user();
 
+        //Condición para que solo se pueda dar un like por persona a cada foto
+        $isset_like = Like::where('user_id', $user->id)
+                ->where('image_id', $image_id)
+                ->count();
 
+        //var_dump($isset_like);
+        //die();
+
+        if ($isset_like == 0) {//Si con la condición no sacamos ningún registro-> creamos el objeto y lo guardamos
+            $like = new Like();
+            $like->user_id = $user->id;
+            $like->image_id = (int) $image_id; //Para evitar que recoja el dato como string
+            //Guardar objeto Like() en BBDD
+            $like->save();
+
+            //En este caso no hacmeos redirección porque va a ser una acción AJAX
+            //var_dump($like);
+        }else{
+            echo "ya existe el like";
+        }
+    }
+```
+- Creamos una ruta para este nuevo método: **Route::get('/like/{id}', [App\Http\Controllers\LikeController::class, 'like'])->name('like.save');**
+- Seguimos modificando el método like; añadiremos un **return json**:
+```html
+        if ($isset_like == 0) {
+            
+		(...)
+
+            return response()->json([
+                'like' => $like
+            ]);
+
+        }else{
+
+            return response()->json([
+                'message' => 'El like ya existe'
+            ]);
+        }
+```
+## Clase 390
+### Método Dislike
+- Creamos el método dislike (pasando $image_id por parámetro):
+```html
+```
+- Creamos una ruta para este nuevo método: ****
 
 
 
