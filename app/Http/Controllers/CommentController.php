@@ -38,4 +38,28 @@ class CommentController extends Controller {
                         ->with(['message' => 'Comentario añadido correctamente'
         ]);
     }
+
+    public function delete($id) {
+        //Conseguir datos del usuario logeado
+        $user = \Auth::user();
+
+        //Conseguir objeto del comentario
+        $comment = Comment::find($id);
+
+        //Comprobar si soy el dueño del comentario o publicación
+        if ($user && ($comment->user_id == $user->id || $comment->image->user_id == $user->id)) {
+            
+            //Borrar comentario de la BBDD
+            $comment->delete();
+
+            //Redirección
+            return redirect()->route('image.detail', ['id' => $comment->image->id])
+                            ->with(['message' => 'Comentario eliminado correctamente'
+            ]);
+        } else {
+            return redirect()->route('image.detail', ['id' => $comment->image->id])
+                            ->with(['message' => 'No se ha podido eliminar el comentario'
+            ]);
+        }
+    }
 }

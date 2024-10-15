@@ -1238,7 +1238,33 @@ Para hacer que se muestren de más nuevo a más antiguo debemos hacer una modifi
 ```
 ## Clase 388
 ### Eliminar Comentario (si se es dueño)
+Creamos el método delete dentro de CommentController
+```html
+    public function delete($id) {
+        //Conseguir datos del usuario logeado
+        $user = \Auth::user();
 
+        //Conseguir objeto del comentario
+        $comment = Comment::find($id);
+
+        //Comprobar si soy el dueño del comentario o publicación
+        if ($user && ($comment->user_id == $user->id || $comment->image->user_id == $user->id)) {
+            
+            //Borrar comentario de la BBDD
+            $comment->delete();
+
+            //Redirección
+            return redirect()->route('image.detail', ['id' => $comment->image->id])
+                            ->with(['message' => 'Comentario eliminado correctamente'
+            ]);
+        } else {
+            return redirect()->route('image.detail', ['id' => $comment->image->id])
+                            ->with(['message' => 'No se ha podido eliminar el comentario'
+            ]);
+        }
+    }
+```
+A continuación creamos la ruta en web.php: ****
 
 
 
