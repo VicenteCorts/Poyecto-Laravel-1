@@ -1566,10 +1566,19 @@ $(this).attr('src', url+'/assets/heartgray.png');
 <div class="clearfix"></div>
 {{$likes->links()}}
 ```
-
 ## Clase 397
-###
-
+### Entrada del Menú para acceder a Favoritas
+Abrimos app.blade.php en layouts
+- Añadimos un nuevo <li> al menú superior y cambiamos la ruta a la que dirige y el texto:
+```html
+<li class="nav-item">
+	<a class="nav-link" href="{{route('likes')}}">
+		Favoritas
+	</a>
+</li>
+```
+## Clase 398
+### Perfil de Usuario
 
 
 
