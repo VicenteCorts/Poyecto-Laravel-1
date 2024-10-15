@@ -1360,6 +1360,60 @@ Para hacer que se muestren de más nuevo a más antiguo debemos hacer una modifi
 - Creamos una ruta para este nuevo método: **Route::get('/dislike/{id}', [App\Http\Controllers\LikeController::class, 'dislike'])->name('like.delete');**
 ## Clase 391
 ### Detectar Likes
+Modificamos el div de likes de home.blade.php -> añadimos clases e imagen complementaria (corazon rojo)
+```html
+                    <div class="likes">
+			{{count($image->likes)}}
+                        <img src="assets/heartgray.png" class="btn-like"/>
+                        <img src="assets/heartred.png" class="btn-dislike"/>
+                    </div>
+```
+- A continuación empleamos el detector de haber dado like o no a una publicación para mostrar un corazón u otro
+```html
+                    <div class="likes">
+                        {{count($image->likes)}}
+
+                        <!--Detector de likes del usuario logeado-->
+                        <?php $user_like = false; ?>
+                        
+                        @foreach($image->likes as $like)
+                            @if($like->user->id == Auth::user()->id)
+                               <?php $user_like = true; ?> 
+                            @endif
+                        @endforeach
+                        
+                        @if($user_like)
+                            <img src="assets/heartred.png" class="btn-dislike"/>
+                        @else
+                            <img src="assets/heartgray.png" class="btn-like"/>
+                        @endif
+                        
+                    </div>
+```
+## Clase 392
+### Funcionalidad AJAX alternar like/dislike
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

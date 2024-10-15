@@ -48,7 +48,22 @@
                     </div>
 
                     <div class="likes">
-                        <img src="assets/heartgray.png" />
+                        
+                        <!--Detector de likes del usuario logeado-->
+                        <?php $user_like = false; ?>
+                        
+                        @foreach($image->likes as $like)
+                            @if($like->user->id == Auth::user()->id)
+                               <?php $user_like = true; ?> 
+                            @endif
+                        @endforeach
+                        
+                        @if($user_like)
+                            <img src="assets/heartred.png" class="btn-dislike"/>
+                        @else
+                            <img src="assets/heartgray.png" class="btn-like"/>
+                        @endif
+                        <span class="numer_likes">{{count($image->likes)}}</span>
                     </div>
 
                     <div class="comments">
