@@ -1413,24 +1413,105 @@ window.addEventListener("load", function(){
 - Ahora debería cambiar el color y no dar mensajes de error en la consola del navegador
 ### Cambiar la Función del JS para Cabmiar Color del corazon al clicar
 ```html
-//RANDOM DE LAS PREGUNTAS DE LA CLASE
- window.addEventListener("load", function(){
-	$('.btn-like').css('cursor','pointer');
-	$('.btn-dislike').css('cursor','pointer');
-	$(document).on("click", ".btn-like", function(e){
-                console.log('like');
-		$(this).addClass('btn-dislike').removeClass('btn-like');
-		$(this).attr('src', 'assets/heartred.png');
-	});
-	$(document).on("click", ".btn-dislike", function(e){
-                console.log('dislike');
-		$(this).addClass('btn-like').removeClass('btn-dislike');
-		$(this).attr('src', 'assets/heartgray.png');
-	});
+//VICTOR ROBLES
+window.addEventListener("load", function () {
+//    alert("Página completamente carga");
+//    COMPROBAR SI FUNCIONA JQUERY:
+//    $('body').css('background', 'red');
+
+    $('.btn-like').css('cursor', 'pointer');
+    $('.btn-dislike').css('cursor', 'pointer');
+
+    //BOTON LIKE
+    function like() {
+        $('.btn-like').unbind('click').click(function () {
+            console.log('like');
+            $(this).addClass('btn-dislike').removeClass('btn-like');
+            $(this).attr('src', 'assets/heartred.png');
+            dislike();
+        });
+    }
+    like();
+
+    //BOTON DISLIKE
+    function dislike() {
+        $('.btn-dislike').unbind('click').click(function () {
+            console.log('dislike');
+            $(this).addClass('btn-like').removeClass('btn-dislike');
+            $(this).attr('src', 'assets/heartgray.png');
+            like();
+        });
+    }
+    dislike();
 });
 ```
 ## Clase 394
-###
+### Peticiones AJAX - guardar likes en BBDD
+Antes de crear la función AJAX en main.js debemos hacer que el id de la imagen llegue al archivo main.js
+- para ellos añadimos en home.blade.php el atributo data-id="{{$image->id}}" a las diferentes imágenes para que pueda ser leído por main.js y trabajar con ello
+- Y modificamos el archivo main.js (añadimos una variable "url" en el incio -que habría que cambiar al finalizar el pryecto en base al dominio- y las funciones ajax):
+```html
+//VICTOR ROBLES
+var url ='http://proyecto-laravel.com.devel/';
+window.addEventListener("load", function () {
+//    alert("Página completamente carga");
+//    COMPROBAR SI FUNCIONA JQUERY:
+//    $('body').css('background', 'red');
+
+    $('.btn-like').css('cursor', 'pointer');
+    $('.btn-dislike').css('cursor', 'pointer');
+
+    //BOTON LIKE
+    function like() {
+        $('.btn-like').unbind('click').click(function () {
+            console.log('like');
+            $(this).addClass('btn-dislike').removeClass('btn-like');
+            $(this).attr('src', 'assets/heartred.png');
+            
+            $.ajax({
+                url: url+'like/'+$(this).data('id'),
+                type: 'GET',
+                success: function(response){
+                    if(response.like){
+                      console.log('Has dado like');  
+                    }else{
+                        console.log('Error al dar like'); 
+                    }
+                }
+            });
+            
+            dislike();
+        });
+    }
+    like();
+
+    //BOTON DISLIKE
+    function dislike() {
+        $('.btn-dislike').unbind('click').click(function () {
+            console.log('dislike');
+            $(this).addClass('btn-like').removeClass('btn-dislike');
+            $(this).attr('src', 'assets/heartgray.png');
+            
+                        $.ajax({
+                url: url+'dislike/'+$(this).data('id'),
+                type: 'GET',
+                success: function(response){
+                    if(response.like){
+                      console.log('Has dado dislike');  
+                    }else{
+                        console.log('Error al dar dislike'); 
+                    }
+                }
+            });
+            
+            like();
+        });
+    }
+    dislike();
+});
+```
+## Clase 395
+### 
 
 
 
