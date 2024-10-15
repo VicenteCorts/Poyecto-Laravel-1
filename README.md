@@ -1512,7 +1512,10 @@ window.addEventListener("load", function () {
 ```
 ## Clase 395
 ### Funciones AJAX para la parte detail
-Copiamos el bloque likes de home.blade.php y lo pegamos en detail.blade.php sustituyendo los enlaces de las imágenes para evitar que den error: **<?= env('APP_URL') ?>/**
+Copiamos el bloque likes de home.blade.php y lo pegamos en detail.blade.php sustituyendo los enlaces de las imágenes para evitar que den error: 
+```html
+<?= env('APP_URL') ?>/
+```
 ```html
 @if($user_like)
 	<img src="<?= env('APP_URL') ?>/assets/heartred.png" data-id="{{$image->id}}" class="btn-dislike"/>
@@ -1579,10 +1582,29 @@ Abrimos app.blade.php en layouts
 ```
 ## Clase 398
 ### Perfil de Usuario
+- Cargamos el modelo User en UserController: **use App\Models\User;** , ya que vamos a necesitarlo
+- Creamos un método "profile" dentro de UserController
+```html
+    public function profile($id) {
+        $user = User::find($id);
+        
+        return view('user.profile', [
+            'user' => $user
+        ]);
+    }
+```
+- Creamos la vista a la que retorna dicho método **(resources/views/user/profile.blade.php)**-> h1 de pruebas
+- Creamos la ruta en web.php: **Route::get('/perfil/{id}', [App\Http\Controllers\UserController::class, 'profile'])->name('profile');**
+- Cambiamos el href de "Mi perfil" en app.blade.php
+```html
+<a class="dropdown-item" href="{{ route('profile' , ['id' => Auth::user()->id]) }}">
+	Mi perfil
+</a>
+```
+- Editamos la vista profile.blade.php
 
-
-
-
+## Clase 399
+### Maquetación Perfil de Usuario
 
 
 

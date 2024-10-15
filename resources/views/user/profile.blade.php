@@ -4,17 +4,12 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-
-            @include('includes.message')
-            @foreach ($images as $image)
-
+            <h1>Mi perfil</h1>
+            <hr/>
+            
+            @foreach ($user->images as $image)
                 @include('includes.image', ['image' => $image])           
-
             @endforeach
-
-            <!--PAGINACION-->
-            <div class="clearfix"></div>
-            {{$images->links()}}
 
         </div>        
     </div>
