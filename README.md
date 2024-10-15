@@ -1392,7 +1392,20 @@ Modificamos el div de likes de home.blade.php -> añadimos clases e imagen compl
 ```
 ## Clase 392
 ### Funcionalidad AJAX alternar like/dislike
-
+Añadiremos un archivo JS para incluir la funcionalidad de like/dislike
+- Para ello debemos añadir el nuevo archivo en la carpeta public (de otro modo no sería aplicable para los usuarios).
+- Creamos en la carpeta public un archivo "main.js"
+- Rellenamos: 
+```html
+window.addEventListener("load", function(){
+    alert("Página completamente carga");
+});
+```
+- Cargamos esta prueba en nuestra pantilla principal; resources/views/layouts/app.blade.php
+- Añadimos el script: **<script src="/js/main.js"></script>** (empleamos /js ya que esta dirigiendose a la carpeta del public)
+- Al cargar la página nos sale un pop-up del alert que habíamos creado en el main.js
+## Clase 393
+### Cambiar la Función del JS para Cabmiar Color del corazon al clicar
 
 
 
