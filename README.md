@@ -1582,7 +1582,7 @@ Abrimos app.blade.php en layouts
 ```
 ## Clase 398
 ### Perfil de Usuario
-- Cargamos el modelo User en UserController: **use App\Models\User;** , ya que vamos a necesitarlo
+- Cargamos el modelo User en UserController: **use App\Models\User;** ya que vamos a necesitarlo
 - Creamos un método "profile" dentro de UserController
 ```html
     public function profile($id) {
@@ -1602,9 +1602,69 @@ Abrimos app.blade.php en layouts
 </a>
 ```
 - Editamos la vista profile.blade.php
+```html
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>Mi perfil</h1>
+            <hr/>
+            
+            @foreach ($user->images as $image)
+                @include('includes.image', ['image' => $image])           
+            @endforeach
+
+        </div>        
+    </div>
+</div>
+@endsection
+```
 
 ## Clase 399
-### Maquetación Perfil de Usuario
+### Mostrar datos en el perfil
+Editamos el archivo profile.blade.php
+- En el primer bloque, si copiamos de image.blade.php, debemos tener en cuenta que el @if no debe ser de $image->user->image; sino $user->image
+- Y así con el resto de variables de laravel (las que van entre dos corchetes) **ATENCION A ESTO**
+```html
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="data-user">
+                
+                @if($user->image)
+                    <div class='container-avatar'>
+                        <img src="<?= env('APP_URL') ?>/avatares/{{$user->image}}" class="avatar"/>
+                    </div>
+                @endif
+                
+                <div class="user-info">
+                    <h1>{{'@'.$user->nick}}</h1>
+                    <h2>{{$user->name.' '.$user->surname}}</h2>
+                    <p><span class="nickname date">{{'Se unió: '. \FormatTime::LongTimeFilter($user->created_at)}}</span></p>
+                </div>
+                
+            </div>
+
+            @foreach ($user->images as $image)
+            @include('includes.image', ['image' => $image])           
+            @endforeach
+
+        </div>        
+    </div>
+</div>
+@endsection
+```
+## Clase 400
+### Maquetación Perfil Usuario
+
+
+
+
 
 
 
