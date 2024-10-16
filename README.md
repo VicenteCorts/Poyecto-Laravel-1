@@ -1907,6 +1907,58 @@ Copiamos el contenido de create.blade.php y lo modificamos
 ```
 ## Clase 406
 ### Página de gente
+- Creamos el método "index" en UserController
+```html
+public function index(){
+        $users = User::orderBy('id','desc')->paginate(5);
+        return view('user.index',[
+            'users' => $users
+        ]);
+    }
+```
+- Creamos la vista user/index.blade.php
+```html
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            @foreach ($users as $user)
+
+                @if($user->image)
+                    <div class='container-avatar'>
+                        <img src="<?= env('APP_URL') ?>/avatares/{{$user->image}}" class="avatar"/>
+                    </div>
+                @endif
+
+                <div class="user-info">
+                    <h1>{{'@'.$user->nick}}</h1>
+                    <h2>{{$user->name.' '.$user->surname}}</h2>
+                    <p><span class="nickname date">{{'Se unió: '. \FormatTime::LongTimeFilter($user->created_at)}}</span></p>
+                </div>
+
+            @endforeach
+
+            <!--PAGINACION-->
+            <div class="clearfix"></div>
+            {{$users->links()}}
+
+        </div>        
+    </div>
+</div>
+@endsection
+```
+- Creamos la ruta en web.php: **Route::get('/gente', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');**
+- Creamos un nuevo apartado en app.blade.php -> "gente"
+```html
+<li class="nav-item">
+	<a class="nav-link" href="{{route('user.index')}}">
+		Gente
+	</a>
+</li>
+```
 
 
 
