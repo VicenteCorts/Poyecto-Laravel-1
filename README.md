@@ -2118,20 +2118,20 @@ Una vez que tu servidor esté configurado, ejecuta las migraciones de la base de
 
 ```html
 php artisan migrate --force
-```html
+```
 Luego optimiza el caché de rutas y configuraciones para producción:
 
 ```html
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-```html
+```
 9. Configuración SSL (Opcional)
 Es recomendable usar HTTPS para tu aplicación. Puedes obtener un certificado SSL gratuito usando Let's Encrypt.
 
 ```html
 sudo certbot --apache -d tudominio.com
-```html
+```
 10. Monitorea el Despliegue
 Verifica que tu aplicación esté funcionando correctamente y asegúrate de monitorear el servidor para detectar posibles problemas.
 
@@ -2147,13 +2147,3 @@ https://www.youtube.com/watch?v=JNhmEoBsZ48&ab_channel=TheCodeholic
 ## Deploy con npm
 ?
 https://www.youtube.com/watch?v=UPCMtfIaGpA&ab_channel=LearnwithJon
-
-
-
-
-
-
-
-
-
-
