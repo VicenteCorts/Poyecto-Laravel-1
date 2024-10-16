@@ -121,7 +121,24 @@ class ImageController extends Controller {
         return redirect()->route('home')->with($message);
     }
     
-    public function update($id) {
+    public function edit($id) {
+        //Conseguir datos del usuario logeado
+        $user = \Auth::user();
         
+        //Conseguir objeto de la imagen
+        $image = Image::find($id);
+        
+        //Comprobar si soy el dueño de la imagen
+        if ($user && $image && ($image->user_id == $user->id)) {            
+            
+            //Redirección Success
+            return view('image.edit', [
+                'image' => $image
+            ]);
+            
+        }else{
+            //Redirección Fail
+            return redirect()->route('home');
+        }   
     }
 }

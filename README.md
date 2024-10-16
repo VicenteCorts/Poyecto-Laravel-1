@@ -1782,6 +1782,114 @@ https://www.w3schools.com/bootstrap/bootstrap_modal.asp
 ```
 ## Clase 404
 ### Formulario actualización de imágenes
+- Creamos el método edit para redirigir a una nueva vista ('image.edit')
+```html
+    public function edit($id) {
+        //Conseguir datos del usuario logeado
+        $user = \Auth::user();
+        
+        //Conseguir objeto de la imagen
+        $image = Image::find($id);
+        
+        //Comprobar si soy el dueño de la imagen
+        if ($user && $image && ($image->user_id == $user->id)) {            
+            
+            //Redirección Success
+            return view('image.edit', [
+                'image' => $image
+            ]);
+            
+        }else{
+            //Redirección Fail
+            return redirect()->route('home');
+        }   
+    }
+```
+- Creamos la vista edit.blade.php dentro de la carpeta image -> h1 de prueba
+- Creamos la ruta correspondiente: **Route::get('/imagen/editar/{id}', [App\Http\Controllers\ImageController::class, 'edit'])->name('image.edit');**
+- Insertamos la ruta en el link de Actualizar de detial.blade.php
+```html
+<a href="{{route('image.edit', ['id'=> $image->id])}}" class="btn btn-sm btn-primary">Actualziar</a>
+
+```
+### Vista edit.blade.php
+Copiamos el contenido de create.blade.php y lo modificamos
+- Cambiamos el título de la "card"
+- Cambiamos (de momento eliminamos) el action del formulario, ya que emplearemos otro método diferente
+- Añadimos una pequeña vista para mostrar la imagen || o un enlace en mi caso
+- Cambiamos el value del botón submit ("Actualizar Imagen")
+- Rellenamos los campos del formulario con los datos del objeto que pasamos a través del método edit del ImageController:
+```html
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card">
+                <div class="card-header">Editar mi imagen</div>
+                <div class="card-body">
+
+                    <form action="" method="POST" enctype="multipart/form-data" >
+                        @csrf
+
+                        <div class="form-group row mb-3">
+                            <label for="image_path" class="col-md-3 col-form-label text-md-end">Imagen</label>
+                            <div class="col-md-7">
+
+                                @if($image->user->image)
+                                <div class='container-avatar'>
+                                    <img src="<?= env('APP_URL') ?>/avatares/{{$image->user->image}}" class="avatar"/>
+                                </div>
+                                @endif
+
+                                <input id="image_path" type="file" name="image_path" class="form-control  {{$errors->has('image_path') ? 'is-invalid' : ''  }}"/>
+
+                                <!--Mostrar error en caso de fallo en la validación-->
+                                @if($errors->has('image_path'))
+                                <span class='invalid-feedback' role='alert'>
+                                    <strong>{{$errors->first('image_path')}}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label for="description" class="col-md-3 col-form-label text-md-end">Descripción</label>
+                            <div class="col-md-7">
+                                <textarea id="description" name="description" class="form-control {{$errors->has('description') ? 'is-invalid' : ''  }}">{{$image->description}}</textarea>
+
+                                <!--Mostrar error en caso de fallo en la validación-->
+                                @if($errors->has('description'))
+                                <span class='invalid-feedback' role='alert'>
+                                    <strong>{{$errors->first('description')}}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+
+                            <div class="col-md-6 offset-md-3">
+                                <input type='submit' class='btn btn-primary' value='Actualizar imagen'>
+
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+@endsection
+```
+## Clase 405
+### Método para actualziar imagen
 
 
 

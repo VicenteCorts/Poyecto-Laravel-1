@@ -56,7 +56,7 @@
                     <!--BOTONES DE ELIMINAR Y EDITAR-->
                     @if(Auth::user() && Auth::user()->id == $image->user->id)
                     <div class="actions">
-                        <a href="" class="btn btn-sm btn-primary">Actualziar</a>
+                        <a href="{{route('image.edit', ['id'=> $image->id])}}" class="btn btn-sm btn-primary">Actualziar</a>
 
                         <!--MODAL DE BOOTSTRAP PARA BORRAR IMAGEN-->
                         <!-- Button trigger modal -->
