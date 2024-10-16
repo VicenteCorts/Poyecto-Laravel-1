@@ -1,4 +1,8 @@
 # PROYECTO LARAVEL - INSTAGRAM
+## Importante para empezar:
+La aplicación está elaborada con Laravel 11.x. Para hacerla funcionar es necesario abrir la consola en la ubicación del archivo y ejecutrar "$ npm run dev".
+- https://laravel.com/docs/11.x/releases
+
 ## Clase 354
 ### Creando la BBDD
 #### Tabla USERS
@@ -2017,10 +2021,132 @@ Creamos en index.blade.php un formulario para ejecutar la búsqueda mediante el 
 
 # FIN
 
+## Consideraciones finales
+Una vez que nuestra aplicación esté lista, para pasarla a producción debemos "montarla":
+## .
+1. Configura un Servidor para Producción
+Hosting: Puedes usar servicios como DigitalOcean, Linode, AWS, Heroku, etc.
+Servidor Web: Normalmente se utiliza Apache o Nginx.
+PHP: Asegúrate de tener instalado PHP (al menos versión 7.4 o superior) en el servidor.
+Base de Datos: MySQL o PostgreSQL suelen ser las opciones comunes.
+2. Sube el Código al Servidor
+Usa Git o SFTP: Una manera común es subir tu código usando Git (si tu servidor tiene configurado un repositorio Git) o un cliente FTP/SFTP como FileZilla.
+3. Instala Dependencias de Laravel
+Una vez que tu código esté en el servidor, navega a la carpeta raíz de tu proyecto en el servidor y ejecuta:
+
+```html
+composer install --optimize-autoloader --no-dev
+Esto instalará las dependencias necesarias de Laravel.
+```
+
+4. Compila los Recursos de Front-End
+Para la compilación de tus assets (CSS, JavaScript), deberás compilar los archivos para producción, en lugar de usar $ npm run dev. Ejecuta el siguiente comando localmente antes de subir los archivos al servidor:
+
+```html
+npm run build
+```
+Esto generará archivos minificados y optimizados que serán usados en producción. Los archivos generados estarán en la carpeta public (normalmente public/css y public/js).
+
+**Nota**: Luego de compilar, solo necesitas subir la carpeta public, ya que ahí estarán los archivos front-end compilados.
+
+5. Configura las Variables de Entorno
+En tu servidor, debes crear un archivo .env para configurar tu aplicación con las credenciales de la base de datos, el entorno de producción, etc. Asegúrate de ajustar las siguientes variables:
+
+```html
+APP_ENV=production
+APP_KEY=   # Llave generada con 'php artisan key:generate'
+APP_DEBUG=false
+APP_URL=http://tudominio.com
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nombre_base_datos
+DB_USERNAME=usuario_base_datos
+DB_PASSWORD=contraseña
+6. Permisos en Directorios
+```
+Laravel requiere que los directorios storage y bootstrap/cache tengan permisos de escritura. Asegúrate de dar los permisos correctos:
+
+```html
+sudo chown -R www-data:www-data /path/to/your/project
+sudo chmod -R 775 /path/to/your/project/storage
+sudo chmod -R 775 /path/to/your/project/bootstrap/cache
+```
+7. Configura el Servidor Web
+Si estás usando Apache o Nginx, deberás configurar un virtual host apuntando a la carpeta public de tu proyecto.
+
+Ejemplo para Apache:
+```html
+<VirtualHost *:80>
+    ServerName tudominio.com
+    DocumentRoot /path/to/your/project/public
+
+    <Directory /path/to/your/project/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+Ejemplo para Nginx:
+
+```html
+server {
+    listen 80;
+    server_name tudominio.com;
+    root /path/to/your/project/public;
+
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+```
+8. Migraciones y Cache
+Una vez que tu servidor esté configurado, ejecuta las migraciones de la base de datos:
+
+```html
+php artisan migrate --force
+```html
+Luego optimiza el caché de rutas y configuraciones para producción:
+
+```html
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```html
+9. Configuración SSL (Opcional)
+Es recomendable usar HTTPS para tu aplicación. Puedes obtener un certificado SSL gratuito usando Let's Encrypt.
+
+```html
+sudo certbot --apache -d tudominio.com
+```html
+10. Monitorea el Despliegue
+Verifica que tu aplicación esté funcionando correctamente y asegúrate de monitorear el servidor para detectar posibles problemas.
+
+Con estos pasos, tu aplicación de Laravel debería estar lista para producción.
 
 
 
 
+## Deploy con React
+https://www.youtube.com/watch?v=qJq9ZMB2Was&t=594s&ab_channel=TheCodeholic
+https://www.youtube.com/watch?v=JNhmEoBsZ48&ab_channel=TheCodeholic
+
+## Deploy con npm
+?
+https://www.youtube.com/watch?v=UPCMtfIaGpA&ab_channel=LearnwithJon
 
 
 
