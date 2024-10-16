@@ -1990,8 +1990,32 @@ public function index(){
 ```
 ## Clase 408
 ### Formulario del buscador
+Creamos en index.blade.php un formulario para ejecutar la búsqueda mediante el método elaborado en la clase anterior:
+```html
+            <form method="GET" action="{{route('user.index')}}" id="buscador">
+                <div class="row">
+                    <div class="from-group col">           
+                        <input type="text" id="search" name="search" class="form-control"/>
+                    </div>
+                    <div class="from-group col btn-search">
+                        <input type="submit" value="buscar" class="btn btn-secondary"/>
+                    </div>
+                </div>
+            </form>
+```
+- AHORA LA PARTE IMPROTANTE: mediante js haremos que el formulario modifique la url añadiendo el parámetro a la ruta
+- Añadimos al archivo main.js de la carpeta public/js la siguinete función:
+```html
+    $('#buscador').submit(function (e) {
+       
+        $(this).attr('action', url + 'gente/' + $('#buscador #search').val());
+        
+    });
+```
+- Por último, la url se meodifica añadiendo "?search=numero"
+- para evitar esto, debemos eliminar name="search" del input del formulario y ya estaría
 
-
+# FIN
 
 
 

@@ -5,6 +5,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h1>Gente</h1>
+
+            <form method="GET" action="{{route('user.index')}}" id="buscador">
+                <div class="row">
+                    <div class="from-group col">           
+                        <input type="text" id="search" class="form-control"/>
+                    </div>
+                    <div class="from-group col btn-search">
+                        <input type="submit" value="buscar" class="btn btn-secondary"/>
+                    </div>
+                </div>
+            </form>
+
             <hr/>
             @foreach ($users as $user)
             <div class="profile-user">
