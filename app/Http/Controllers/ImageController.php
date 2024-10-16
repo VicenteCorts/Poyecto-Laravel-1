@@ -102,43 +102,70 @@ class ImageController extends Controller {
             }
 
             //Eliminar ficheros asociados a la imagen PELIGRO?
-            Storage::disk('images')-> delete($image->image_path);
-            
+            Storage::disk('images')->delete($image->image_path);
+
             //Borrar Imagen de la BBDD
             $image->delete();
 
-            
             //Mensaje final:
-             $message = array('message' => 'La imagen se ha eliminado correctamente.');
-             
-            
+            $message = array('message' => 'La imagen se ha eliminado correctamente.');
         } else {
             //Mensaje final en caso de error
             $message = array('message' => 'Fallo a la hora de borrar la imagen.');
         }
-        
+
         //Redirección
         return redirect()->route('home')->with($message);
     }
-    
+
     public function edit($id) {
         //Conseguir datos del usuario logeado
         $user = \Auth::user();
-        
+
         //Conseguir objeto de la imagen
         $image = Image::find($id);
-        
+
         //Comprobar si soy el dueño de la imagen
-        if ($user && $image && ($image->user_id == $user->id)) {            
-            
+        if ($user && $image && ($image->user_id == $user->id)) {
+
             //Redirección Success
             return view('image.edit', [
                 'image' => $image
             ]);
-            
-        }else{
+        } else {
             //Redirección Fail
             return redirect()->route('home');
-        }   
+        }
+    }
+
+    public function update(Request $request) {
+        //Validación
+        $validate = $this->validate($request, [
+            'description' => ['required'],
+            'image_path' => ['image'],
+        ]);
+        
+        //Recoger datos
+        $image_id = $request->input('image_id');
+        $image_path = $request->file('image_path');
+        $description = $request->input('description');
+        
+        //Conseguir objeto imagen de la BBDD
+        $image = Image::find($image_id);
+        $image->description = $description;
+
+        //Subir imagen a disco virtual de Laravel -> primero añadir: use Illuminate\Support\Facades\File; Y use Illuminate\Support\Facades\Storage;
+        if ($image_path) {
+            $image_path_name = time() . $image_path->getClientOriginalName();
+            Storage::disk('images')->put($image_path_name, File::get($image_path));
+            $image->image_path = $image_path_name;
+        }
+        
+        //Actualizar el registro del objeto imagen conseguido
+        $image->update();
+        
+        //Redirección
+        return redirect()->route('image.detail', ['id'=>$image->id])
+                        ->with(['message' => 'Imagen actualizada con éxito']);
     }
 }

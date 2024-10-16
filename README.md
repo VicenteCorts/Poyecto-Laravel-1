@@ -1890,8 +1890,23 @@ Copiamos el contenido de create.blade.php y lo modificamos
 ```
 ## Clase 405
 ### Método para actualziar imagen
+- Añadimos un bloque nuevo para mostrar una miniatura de la imagen a modificar
+```html
+<img src="<?= env('APP_URL') ?>/imagenes/{{$image->image_path}}" class="avatar"/>
+```
+- Creamos un input hidden en edit.blade.php para poder pasar el id de la imagen
+```html
+<input type="hidden" name="image_id" value="{{$image->id}}"/>
 
-
+```
+- Creamos nuevo método en ImageController: update -> iremos modificándolo
+- Creamos la ruta para este método: **Route::post('/image/update', [App\Http\Controllers\ImageController::class, 'update'])->name('image.update');** 
+- Añadimos la ruta al action del formulario:
+```html
+<form action="{{route('image.update')}}" method="POST" enctype="multipart/form-data" >
+```
+## Clase 406
+### Página de gente
 
 
 
