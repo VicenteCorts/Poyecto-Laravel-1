@@ -51,6 +51,14 @@
                         <span class="numer_likes">{{count($image->likes)}}</span>
                     </div>
 
+                    <!--BOTONES DE ELIMINAR Y EDITAR-->
+                    @if(Auth::user() && Auth::user()->id == $image->user->id)
+                    <div class="actions">
+                        <a href="" class="btn btn-sm btn-primary">Actualziar</a>
+                        <a href="" class="btn btn-sm btn-danger">Borrar</a>
+                    </div>
+                    @endif
+                    
                     <div class="clearfix"></div>
                     <div class="comments">
                         <h2>Comentarios ({{count($image->comments)}})</h2>

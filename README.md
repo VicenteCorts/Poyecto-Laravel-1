@@ -1663,6 +1663,21 @@ Editamos el archivo profile.blade.php
 ### Maquetación Perfil Usuario
 Añadimos estilos a las clases de profile.blade.php y añadimos algunos contenedores para organizar el contenido
 
+## Clase 401
+### Botones para Eliminar y editar publicaciones si son del usuario registrado
+- Nos dirigimos al archivo detail.blade.php
+- Añadimos bajo los comentarios un nuevo contenedor de Botones para incluir el boton de eliminar y editar
+```html
+                    <!--BOTONES DE ELIMINAR Y EDITAR-->
+                    @if(Auth::user() && Auth::user()->id == $image->user->id)
+                    <div class="actions">
+                        <a href="" class="btn btn-sm btn-primary">Actualziar</a>
+                        <a href="" class="btn btn-sm btn-danger">Borrar</a>
+                    </div>
+                    @endif
+```
+## Clase 401
+### Botón de Borrar, función
 
 
 
