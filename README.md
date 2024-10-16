@@ -1661,6 +1661,12 @@ Editamos el archivo profile.blade.php
 ```
 ## Clase 400
 ### Maquetación Perfil Usuario
+Añadimos estilos a las clases de profile.blade.php y añadimos algunos contenedores para organizar el contenido
+
+
+
+
+
 
 
 
