@@ -1742,7 +1742,52 @@ use App\Models\Like;
 ```
 **INTERESANTE VER LAS OTRAS SOLUCIONES QUE HAN DADO LOS COMPAÑEROS EN LOS COMENTARIOS DE ESTA CLASE** -> https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11934500#questions/8574908
 ## Clase 403
-###
+### Modal de Bootstrap 4 -> Confirmación de borrado
+https://www.w3schools.com/bootstrap/bootstrap_modal.asp
+- Copiamos el código del modal para que aparezca un pop-up y confirmar la acción de borrado
+- Lo añadimos a detail.blade.php y editamos a nuestro gusto
+- Para que el modal se muestre, debemos incluir el siguiente código en la parte de scripts de app.blade.php
+```html
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+```
+- Editamos el código del modal:
+```html
+<!--MODAL DE BOOTSTRAP PARA BORRAR IMAGEN-->
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">
+                            Borrar
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Borrar Imagen</h5>
+                                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>-->
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Estás a punto de borrar esta imagen, sus comentarios y sus likes ¿Estás seguro de que quieres continuar?</p>
+                                        <p> No habrá marcha atrás</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <a href="{{route('image.delete', ['id'=>$image->id])}}" class="btn btn-danger">Borrar Definitivamente</a>
+
+                                    </div>
+                                </div>
+                            </div>
+```
+## Clase 404
+### Formulario actualización de imágenes
+
+
+
+
+
+
 
 
 

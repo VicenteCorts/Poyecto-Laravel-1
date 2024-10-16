@@ -120,4 +120,8 @@ class ImageController extends Controller {
         //Redirección
         return redirect()->route('home')->with($message);
     }
+    
+    public function update($id) {
+        
+    }
 }

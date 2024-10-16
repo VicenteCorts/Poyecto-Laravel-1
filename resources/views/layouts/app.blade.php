@@ -17,6 +17,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     
     <!--Styles-->
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
