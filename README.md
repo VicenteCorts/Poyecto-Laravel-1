@@ -1924,21 +1924,25 @@ public function index(){
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-
+            <h1>Gente</h1>
+            <hr/>
             @foreach ($users as $user)
-
+            <div class="profile-user">
                 @if($user->image)
-                    <div class='container-avatar'>
-                        <img src="<?= env('APP_URL') ?>/avatares/{{$user->image}}" class="avatar"/>
-                    </div>
+                <div class='container-avatar'>
+                    <img src="<?= env('APP_URL') ?>/avatares/{{$user->image}}" class="avatar"/>
+                </div>
                 @endif
 
                 <div class="user-info">
-                    <h1>{{'@'.$user->nick}}</h1>
-                    <h2>{{$user->name.' '.$user->surname}}</h2>
+                    <h2>{{'@'.$user->nick}}</h2>
+                    <h3>{{$user->name.' '.$user->surname}}</h3>
                     <p><span class="nickname date">{{'Se unió: '. \FormatTime::LongTimeFilter($user->created_at)}}</span></p>
+                    <a href="{{route('profile' , ['id' => $user->id])}}" class="btn btn-success">Ver Perfil</a>
                 </div>
-
+            </div>
+            <div class="clearfix"></div>
+            <hr/>
             @endforeach
 
             <!--PAGINACION-->
@@ -1949,6 +1953,7 @@ public function index(){
     </div>
 </div>
 @endsection
+
 ```
 - Creamos la ruta en web.php: **Route::get('/gente', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');**
 - Creamos un nuevo apartado en app.blade.php -> "gente"
@@ -1959,11 +1964,32 @@ public function index(){
 	</a>
 </li>
 ```
-
-
-
-
-
+## Clase 407
+### Método del Buscador
+1º Organizamos el archvio web.php por tipo de rutas (generales, usuario, imagen, comentarios, likes)
+- Para añadir un módulo de buscador empezaremos por modificar la ruta de gente añadiendo un parámetro opcional:-> **Route::get('/gente/{search?}', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');**
+- Añadiendo "?" detras del parámetro lo hacemos opcional
+- Añadimos dicho parámetro en el método del UserController y añadimos una condición en caso de que nos llegue dicho parámetro con un valor:
+```html
+    public function index($search = null){
+        
+        if(!empty($search)){
+            $users = User::where('nick', 'LIKE', '%'.$search.'%')
+                    ->orWhere('name', 'LIKE','%'.$search.'%')
+                    ->orWhere('surname', 'LIKE','%'.$search.'%')
+                    ->orderBy('id','desc')
+                    ->paginate(5);
+        }else{
+            $users = User::orderBy('id','desc')->paginate(5);
+        }
+        
+        return view('user.index',[
+            'users' => $users
+        ]);
+    }
+```
+## Clase 408
+### Formulario del buscador
 
 
 
