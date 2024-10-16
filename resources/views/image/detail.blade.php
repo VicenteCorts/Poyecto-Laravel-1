@@ -16,8 +16,10 @@
                     </div>
                     @endif
                     <div class="data-user">
-                        {{ $image->user->name.' '.$image->user->surname}}
-                        <span class='nickname'>{{' | @'.$image->user->nick }}</span>
+                        <a href="{{route('profile', ['id'=>$image->user->id])}}">
+                            {{ $image->user->name.' '.$image->user->surname}}
+                            <span class='nickname'>{{' | @'.$image->user->nick }}</span>
+                        </a>
                     </div>
                 </div>
 
@@ -38,15 +40,15 @@
                         <?php $user_like = false; ?>
 
                         @foreach($image->likes as $like)
-                            @if($like->user->id == Auth::user()->id)
-                                <?php $user_like = true; ?> 
-                            @endif
+                        @if($like->user->id == Auth::user()->id)
+                        <?php $user_like = true; ?> 
+                        @endif
                         @endforeach
 
                         @if($user_like)
-                            <img src="<?= env('APP_URL') ?>/assets/heartred.png" data-id="{{$image->id}}" class="btn-dislike"/>
+                        <img src="<?= env('APP_URL') ?>/assets/heartred.png" data-id="{{$image->id}}" class="btn-dislike"/>
                         @else
-                            <img src="<?= env('APP_URL') ?>/assets/heartgray.png" data-id="{{$image->id}}" class="btn-like"/>
+                        <img src="<?= env('APP_URL') ?>/assets/heartgray.png" data-id="{{$image->id}}" class="btn-like"/>
                         @endif
                         <span class="numer_likes">{{count($image->likes)}}</span>
                     </div>
@@ -55,10 +57,10 @@
                     @if(Auth::user() && Auth::user()->id == $image->user->id)
                     <div class="actions">
                         <a href="" class="btn btn-sm btn-primary">Actualziar</a>
-                        <a href="" class="btn btn-sm btn-danger">Borrar</a>
+                        <a href="{{route('image.delete', ['id'=>$image->id])}}" class="btn btn-sm btn-danger">Borrar</a>
                     </div>
                     @endif
-                    
+
                     <div class="clearfix"></div>
                     <div class="comments">
                         <h2>Comentarios ({{count($image->comments)}})</h2>

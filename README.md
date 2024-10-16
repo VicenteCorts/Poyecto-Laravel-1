@@ -1668,19 +1668,81 @@ Añadimos estilos a las clases de profile.blade.php y añadimos algunos contened
 - Nos dirigimos al archivo detail.blade.php
 - Añadimos bajo los comentarios un nuevo contenedor de Botones para incluir el boton de eliminar y editar
 ```html
-                    <!--BOTONES DE ELIMINAR Y EDITAR-->
-                    @if(Auth::user() && Auth::user()->id == $image->user->id)
-                    <div class="actions">
-                        <a href="" class="btn btn-sm btn-primary">Actualziar</a>
-                        <a href="" class="btn btn-sm btn-danger">Borrar</a>
-                    </div>
-                    @endif
+<!--BOTONES DE ELIMINAR Y EDITAR-->
+@if(Auth::user() && Auth::user()->id == $image->user->id)
+	<div class="actions">
+		<a href="" class="btn btn-sm btn-primary">Actualziar</a>
+		<a href="" class="btn btn-sm btn-danger">Borrar</a>
+	</div>
+@endif
 ```
-## Clase 401
+## Clase 402
 ### Botón de Borrar, función
+- Nos dirigimos al controlador de Imagen y añadimos los modelos de comentarios y like, también debemos tener cargado el objeto Storage (previamente hehco)
+```html
+use App\Models\Comment;
+use App\Models\Like;
+```
+- Creamos el nuevo método delete, teniendo en cuenta que tendremos que borrar los comentarios y likes asociados a la imagen antes de elimnar la imagen para evitar errorres de integridad referencial
+```html
+    public function delete($id) {
+        //Conseguir datos del usuario logeado
+        $user = \Auth::user();
 
+        //Conseguir objeto de la imagen
+        $image = Image::find($id);
 
+        //Localizar Comentarios y Likes correspondientes a la imagen en proceso de borrado
+        //Si la imagen tiene registros asociados nos dará error indicando que no se puede eliminar
+        $comments = Comment::where('image_id', $id)->get();
+        $likes = Like::where('image_id', $id)->get();
 
+        //Comprobar si soy el dueño de la imagen
+        if ($user && $image && ($image->user_id == $user->id)) {
+
+            //Eliminar Comentarios asociados a la imagen
+            if ($comments && count($comments) >= 1) {
+                foreach ($comments as $comment) {
+                    $comment->delete();
+                }
+            }
+
+            //Eliminar Likess asociados a la imagen
+            if ($likes && count($likes) >= 1) {
+                foreach ($likes as $like) {
+                    $like->delete();
+                }
+            }
+
+            //Eliminar ficheros asociados a la imagen PELIGRO?
+            Storage::disk('images')-> delete($image->image_path);
+            
+            //Borrar Imagen de la BBDD
+            $image->delete();
+
+            
+            //Mensaje final:
+             $message = array('message' => 'La imagen se ha eliminado correctamente.');
+             
+            
+        } else {
+            //Mensaje final en caso de error
+            $message = array('message' => 'Fallo a la hora de borrar la imagen.');
+        }
+        
+        //Redirección
+        return redirect()->route('home')->with($message);
+    }
+```
+- A continuación crearemos la ruta del método delete de ImageController en web.php: **Route::get('/image/delete/{id}', [App\Http\Controllers\ImageController::class, 'delete'])->name('image.delete');**
+- Añadimos esta ruta al botón de borrar de la vista detail.blade.php:
+```html
+<a href="{{route('image.delete', ['id'=>$image->id])}}" class="btn btn-sm btn-danger">Borrar</a>
+
+```
+**INTERESANTE VER LAS OTRAS SOLUCIONES QUE HAN DADO LOS COMPAÑEROS EN LOS COMENTARIOS DE ESTA CLASE** -> https://www.udemy.com/course/master-en-php-sql-poo-mvc-laravel-symfony-4-wordpress/learn/lecture/11934500#questions/8574908
+## Clase 403
+###
 
 
 

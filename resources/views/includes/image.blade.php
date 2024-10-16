@@ -12,9 +12,7 @@
         <div class="data-user">
             <a href="{{route('profile', ['id'=>$image->user->id])}}">
                 {{ $image->user->name.' '.$image->user->surname}}
-                <span class='nickname'>
-                    {{' | @'.$image->user->nick }}
-                </span>
+                <span class='nickname'>{{' | @'.$image->user->nick }}</span>
             </a>
         </div>
     </div>
